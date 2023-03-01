@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget({
@@ -7,14 +8,14 @@ class AppBarWidget extends StatelessWidget {
     this.leftChild,
     this.rightChild,
     this.width = double.infinity,
-    this.height = 60,
+    this.height,
     this.padding = EdgeInsets.zero,
   });
   final Widget centerChild;
   final Widget? leftChild;
   final Widget? rightChild;
   final double width;
-  final double height;
+  final double? height;
   final EdgeInsets padding;
 
   @override
@@ -23,7 +24,7 @@ class AppBarWidget extends StatelessWidget {
       padding: padding,
       child: SizedBox(
         width: width,
-        height: height,
+        height: height ?? 60.w,
         child: Stack(
           alignment: Alignment.center,
           children: [

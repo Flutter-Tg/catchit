@@ -11,29 +11,13 @@ class ReviewService {
       dynamic firstRun = await hive.get('firstRun');
       if (firstRun == null) {
         await hive.put('firstRun', 1);
+      } else if (firstRun % 3 == 0) {
         bool isShowed = await showRating();
-        // } else if (firstRun < 7) {
-        // await hive.put('firstRun', firstRun + 1);
-        // } else if (firstRun == 7) {
-        // bool isShowed = await showRating();
-        if (isShowed == true) {
-          await hive.put('firstRun', 8);
-        } else {
-          await hive.put('firstRun', null);
+        if (isShowed) {
+          await hive.put('firstRun', firstRun + 1);
         }
       } else {
-        dynamic dateNotis = await hive.get('dateNotis');
-        final now = DateTime.now();
-        if (dateNotis == null) {
-          await hive.put('dateNotis', now.add(const Duration(days: 3)));
-        } else {
-          if (now.isAfter(dateNotis)) {
-            bool isShowed = await showRating();
-            if (isShowed) {
-              hive.put('dateNotis', now.add(const Duration(days: 3)));
-            }
-          }
-        }
+        await hive.put('firstRun', firstRun + 1);
       }
     } catch (e) {
       debugPrint('rating : error = $e');

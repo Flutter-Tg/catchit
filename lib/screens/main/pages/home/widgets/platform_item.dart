@@ -1,5 +1,6 @@
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PlatformItem extends StatelessWidget {
   const PlatformItem({
@@ -15,12 +16,12 @@ class PlatformItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset(asset, width: 20, height: 20),
-        const SizedBox(width: 5),
+        Image.asset(asset, width: 20.w, height: 20.w),
+        SizedBox(width: 5.w),
         Text(
           title,
           style: TextStyle(
-            fontSize: ThemeConstants().fsSmall,
+            fontSize: AppConfig().fsSmall,
             fontWeight: FontWeight.w400,
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:catchit/core/utils/animations/show_up_fade.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,7 +10,7 @@ class ObWelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: ThemeConstants.black,
+      color: AppConfig.black,
       child: Stack(
         children: [
           SafeArea(
@@ -24,9 +24,9 @@ class ObWelcomePage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 180,
-            left: 20,
-            right: 20,
+            bottom: 180.w,
+            left: 20.w,
+            right: 20.w,
             child: ShowUpFadeAnimation(
               delay: 4,
               child: Column(
@@ -36,17 +36,18 @@ class ObWelcomePage extends StatelessWidget {
                     'Welcome to',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: ThemeConstants().fsBannerSmall,
+                      fontSize: AppConfig().fsBannerSmall,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Image.asset('assets/logo/logo.png', width: 110, height: 28),
-                  const SizedBox(height: 25),
+                  SizedBox(height: 10.w),
+                  Image.asset('assets/logo/logo.png',
+                      width: 110.w, height: 28.w),
+                  SizedBox(height: 25.w),
                   Text(
                     'Take a few steps to know what you can do with us🤩',
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: ThemeConstants().fsTitleSmall,
+                      fontSize: AppConfig().fsTitleSmall,
                     ),
                   ),
                 ],

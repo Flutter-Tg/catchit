@@ -1,5 +1,6 @@
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ShowDelay extends StatefulWidget {
   const ShowDelay({
@@ -30,12 +31,12 @@ class _ShowDelayState extends State<ShowDelay> {
     if (show) {
       return widget.child;
     } else {
-      return const Center(
+      return Center(
         child: SizedBox(
-          width: 50,
-          height: 50,
-          child: CircularProgressIndicator(
-            color: ThemeConstants.gray,
+          width: 50.w,
+          height: 50.w,
+          child: const CircularProgressIndicator(
+            color: AppConfig.gray,
           ),
         ),
       );

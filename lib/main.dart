@@ -14,7 +14,7 @@ import 'package:catchit/config/theme.dart';
 import 'package:catchit/core/helper/disable_certificate_https.dart';
 import 'package:catchit/core/locator/locator.dart';
 import 'package:catchit/core/services/notification.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 
 import 'firebase_options.dart';
 
@@ -67,7 +67,7 @@ Future setup() async {
   ]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    systemNavigationBarColor: ThemeConstants.black,
+    systemNavigationBarColor: AppConfig.black,
   ));
 
   //native splash screen

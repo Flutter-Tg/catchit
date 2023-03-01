@@ -3,7 +3,7 @@
 import 'package:catchit/core/services/internet.dart';
 import 'package:catchit/core/services/privacy.dart';
 import 'package:catchit/core/utils/animations/show_up_fade.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
 import 'package:catchit/future/history/controller.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class SplashScreen extends HookConsumerWidget {
     return Material(
       color: Theme.of(context).colorScheme.background,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -67,16 +67,15 @@ class SplashScreen extends HookConsumerWidget {
               ),
             ),
             const Spacer(flex: 2),
-            const ShowUpFadeAnimation(
+            ShowUpFadeAnimation(
               delay: 10,
               child: Align(
                 alignment: Alignment.center,
                 child: SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: CircularProgressIndicator(
-                    color: ThemeConstants.lightGray,
-                  ),
+                  width: 40.w,
+                  height: 40.w,
+                  child: const CircularProgressIndicator(
+                      color: AppConfig.lightGray),
                 ),
               ),
             ),

@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:catchit/core/helper/generate_random_string.dart';
 import 'package:catchit/core/utils/animations/show_up_fade.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/mute.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
+import 'package:video_player/video_player.dart';
 import 'network_imag_fade_widget.dart';
 
 class VideoAutoPlayerWidget extends StatefulWidget {
@@ -119,7 +118,7 @@ class VideoPlayerWidget extends ConsumerStatefulWidget {
 class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
     with TickerProviderStateMixin {
   late AnimationController controllerAnime;
-  late CachedVideoPlayerController controller;
+  late VideoPlayerController controller;
   bool isLoading = false;
   bool play = false;
   bool userPlay = true;
@@ -138,7 +137,7 @@ class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
   }
 
   initializ() {
-    controller = CachedVideoPlayerController.network(widget.url)
+    controller = VideoPlayerController.network(widget.url)
       ..pause()
       ..setLooping(true)
       ..initialize().then((_) {
@@ -232,7 +231,7 @@ class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(widget.radius ?? 0)),
       child: ColoredBox(
-        color: ThemeConstants.blackGray,
+        color: AppConfig.blackGray,
         child: SizedBox(
           width: widget.width,
           height: widget.height,
@@ -251,7 +250,7 @@ class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
               if (controller.value.isInitialized)
                 AspectRatio(
                   aspectRatio: controller.value.aspectRatio,
-                  child: CachedVideoPlayer(
+                  child: VideoPlayer(
                     controller,
                     key: Key(generateRandomString(16)),
                   ),
@@ -378,7 +377,7 @@ class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
                 DecoratedBox(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: ThemeConstants.gray.withOpacity(0.2),
+                    color: AppConfig.gray.withOpacity(0.2),
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(10),
@@ -386,7 +385,7 @@ class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
                       width: 30,
                       height: 30,
                       child: CircularProgressIndicator(
-                        color: ThemeConstants.lightGray,
+                        color: AppConfig.lightGray,
                       ),
                     ),
                   ),
@@ -401,7 +400,7 @@ class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
 
 class VideoPlayerProgressBarWidget extends StatefulWidget {
   const VideoPlayerProgressBarWidget({super.key, required this.controller});
-  final CachedVideoPlayerController controller;
+  final VideoPlayerController controller;
 
   @override
   State<VideoPlayerProgressBarWidget> createState() =>
@@ -439,16 +438,16 @@ class _VideoPlayerProgressBarWidgetState
       },
       barHeight: 4,
       baseBarColor: const Color(0xff2F2F2F).withOpacity(0.5),
-      progressBarColor: ThemeConstants.green,
+      progressBarColor: AppConfig.red,
       thumbColor: Colors.white,
       timeLabelLocation: TimeLabelLocation.sides,
       timeLabelType: TimeLabelType.totalTime,
       timeLabelTextStyle: TextStyle(
-        fontSize: ThemeConstants().fsSmall,
+        fontSize: AppConfig().fsSmall,
         fontWeight: FontWeight.w400,
-        color: ThemeConstants.lightGray,
+        color: AppConfig.lightGray,
       ),
-      bufferedBarColor: ThemeConstants.green.withOpacity(0.3),
+      bufferedBarColor: AppConfig.red.withOpacity(0.3),
     );
   }
 }

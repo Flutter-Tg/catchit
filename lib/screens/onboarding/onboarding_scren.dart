@@ -1,5 +1,5 @@
 import 'package:catchit/core/utils/animations/cahnge_text_animation.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:catchit/core/utils/global_widgets/screen_head.dart';
@@ -30,8 +30,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
   void initState() {
     controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
-    // controller2 = AnimationController(
-    //     vsync: this, duration: const Duration(milliseconds: 400));
     btnController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
     opacity = Tween(begin: 0.0, end: 1.0)
@@ -45,17 +43,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     super.initState();
   }
 
-  // Future show() async {
-  //   controller.forward();
-  //   await Future.delayed(const Duration(milliseconds: 1000));
-  //   await controller2.forward();
-  // }
-
-  // Future hide() async {
-  //   controller2.reverse();
-  //   await Future.delayed(const Duration(milliseconds: 1000));
-  //   await controller.reverse();
-  // }
   next() async {
     if (controller.isAnimating == false) {
       if (pageIndex == 0) {
@@ -111,7 +98,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
           }
         },
         child: ColoredBox(
-          color: ThemeConstants.black,
+          color: AppConfig.black,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -134,8 +121,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
               ),
               Positioned(
                 bottom: pageIndex == 5 ? 0.65.sw : 0.6.sw,
-                left: 20,
-                right: 20,
+                left: 20.w,
+                right: 20.w,
                 child: AnimatedBuilder(
                   animation: controller,
                   child: contents[pageIndex],
@@ -150,23 +137,23 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
               ),
               Positioned(
                 bottom: 0.4.sw,
-                left: 20,
-                right: 20,
+                left: 20.w,
+                right: 20.w,
                 child: AnimatedBuilder(
                   animation: btnController,
                   builder: (context, child) => Row(
                     children: [
                       SizedBox(
-                        width: Tween<double>(begin: 0, end: 120)
+                        width: Tween<double>(begin: 0, end: 120.w)
                             .animate(CurvedAnimation(
                                 parent: btnController, curve: Curves.ease))
                             .value,
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 20),
+                            padding: EdgeInsets.only(right: 20.w),
                             child: SizedBox(
-                              width: 100,
+                              width: 100.w,
                               child: PrimaryButtonWidget(
                                 text: 'BACK',
                                 async: false,
@@ -178,35 +165,37 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                         ),
                       ),
                       Expanded(
-                          child: InkWell(
-                        onTap: () async => next(),
-                        child: DecoratedBox(
-                          decoration: const BoxDecoration(
-                            color: ThemeConstants.green,
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                          ),
-                          child: SizedBox(
-                            height: 45,
-                            child: Center(
-                              child: ChangeTextAnimation(
-                                key: changeTextKey,
-                                text: 'START',
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: ThemeConstants().fsTitleSmall,
+                        child: InkWell(
+                          onTap: () async => next(),
+                          child: DecoratedBox(
+                            decoration: const BoxDecoration(
+                              color: AppConfig.red,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            child: SizedBox(
+                              height: 45.w,
+                              child: Center(
+                                child: ChangeTextAnimation(
+                                  key: changeTextKey,
+                                  text: 'START',
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: AppConfig().fsTitleSmall,
+                                  ),
+                                  duration: const Duration(milliseconds: 200),
                                 ),
-                                duration: const Duration(milliseconds: 200),
                               ),
                             ),
                           ),
                         ),
-                      )),
+                      ),
                     ],
                   ),
                 ),
               ),
               Positioned(
-                bottom: 30,
+                bottom: 30.w,
                 child: AnimatedBuilder(
                   animation: btnController,
                   child: InkWell(
@@ -215,7 +204,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                       'SKIP',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontSize: ThemeConstants().fsTitleSmall,
+                        fontSize: AppConfig().fsTitleSmall,
                         color: const Color(0xff686868),
                       ),
                     ),
@@ -263,19 +252,19 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
           'Welcome to',
           style: TextStyle(
             fontWeight: FontWeight.w700,
-            fontSize: ThemeConstants().fsBannerSmall,
+            fontSize: AppConfig().fsBannerSmall,
           ),
         ),
-        const SizedBox(height: 10),
-        Image.asset('assets/logo/logo.png', width: 110, height: 28),
-        const SizedBox(height: 25),
+        SizedBox(height: 10.w),
+        Image.asset('assets/logo/logo.png', width: 110.w, height: 28.w),
+        SizedBox(height: 25.w),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 280),
+          constraints: BoxConstraints(maxWidth: 280.w),
           child: Text(
             'Take a few steps to know what you can do with us🤩',
             style: TextStyle(
               fontWeight: FontWeight.w400,
-              fontSize: ThemeConstants().fsTitleSmall,
+              fontSize: AppConfig().fsTitleSmall,
             ),
           ),
         ),
@@ -286,7 +275,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
       'Catch\nAnything you\nWant Quickly',
       style: TextStyle(
         fontWeight: FontWeight.w700,
-        fontSize: ThemeConstants().fsBannerSmall,
+        fontSize: AppConfig().fsBannerSmall,
       ),
     ),
     // space
@@ -294,7 +283,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
       'Browse\nBetween Multi\nSocial Media\nin 🪐 Space',
       style: TextStyle(
         fontWeight: FontWeight.w700,
-        fontSize: ThemeConstants().fsBannerSmall,
+        fontSize: AppConfig().fsBannerSmall,
       ),
     ),
     // donwload
@@ -302,7 +291,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
       'Access\nTo Download\nHigh-Quality\nMedia & Audio',
       style: TextStyle(
         fontWeight: FontWeight.w700,
-        fontSize: ThemeConstants().fsBannerSmall,
+        fontSize: AppConfig().fsBannerSmall,
       ),
     ),
     // share
@@ -310,7 +299,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
       'Share\nBetween your\nFriends',
       style: TextStyle(
         fontWeight: FontWeight.w700,
-        fontSize: ThemeConstants().fsBannerSmall,
+        fontSize: AppConfig().fsBannerSmall,
       ),
     ),
     // final
@@ -323,12 +312,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w700,
-            fontSize: ThemeConstants().fsBannerSmall,
+            fontSize: AppConfig().fsBannerSmall,
           ),
         ),
-        const SizedBox(height: 5),
+        SizedBox(height: 5.w),
         Image.asset('assets/logo/logo.png',
-            width: 220, height: 56, fit: BoxFit.contain),
+            width: 220.w, height: 56.w, fit: BoxFit.contain),
       ],
     ),
   ];

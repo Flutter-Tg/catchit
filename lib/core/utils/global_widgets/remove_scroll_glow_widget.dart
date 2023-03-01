@@ -16,8 +16,7 @@ class RemoveScrollGlowWidget extends StatelessWidget {
 
 class MyBehavior extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildOverscrollIndicator(context, child, details) {
     return child;
   }
 }

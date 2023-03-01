@@ -1,6 +1,4 @@
 import 'package:catchit/core/utils/global_state/route.dart';
-import 'package:catchit/core/utils/global_widgets/ads/banner_ad.dart';
-import 'package:catchit/core/utils/global_widgets/ads/mercy_ad.dart';
 import 'package:catchit/core/utils/global_widgets/screen_head.dart';
 import 'package:catchit/core/utils/global_widgets/video_player_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:catchit/core/params/download_param.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_widgets/appbar_widget.dart';
 import 'package:catchit/core/utils/global_widgets/network_imag_fade_widget.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
@@ -34,35 +31,10 @@ class DetailScreen extends ConsumerWidget {
       if (data.audios != null && data.audios!.isNotEmpty)
         AudioDetailItem(data: data),
       if (data.caption != null && data.caption!.title != null)
-        Column(
-          children: [
-            //! ads
-            // const BannerAdWidget(
-            //   padding: EdgeInsets.only(bottom: 30),
-            //   emptyHight: 0,
-            // ),
-            CaptionItem(title: 'Title', sub: data.caption!.title.toString()),
-          ],
-        ),
+        CaptionItem(title: 'Title', sub: data.caption!.title.toString()),
       if (data.caption != null && data.caption!.description != null)
-        Column(
-          children: [
-            //! ads
-            // if (data.caption!.title == null)
-            //   const BannerAdWidget(
-            //     padding: EdgeInsets.only(bottom: 30),
-            //     emptyHight: 0,
-            //   ),
-            CaptionItem(
-                title: 'Description',
-                sub: data.caption!.description.toString()),
-          ],
-        ),
-      //! ads
-      // const MercyAdWidget(
-      //   padding: EdgeInsets.only(bottom: 30),
-      //   emptyHight: 0,
-      // ),
+        CaptionItem(
+            title: 'Description', sub: data.caption!.description.toString()),
     ];
     return ScreenHead(
       child: GestureDetector(
@@ -74,7 +46,7 @@ class DetailScreen extends ConsumerWidget {
         child: SafeArea(
           bottom: false,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(
               children: [
                 AppBarWidget(
@@ -88,7 +60,7 @@ class DetailScreen extends ConsumerWidget {
                   centerChild: Text(
                     'See Content',
                     style: TextStyle(
-                      fontSize: ThemeConstants().fsTitleSmall,
+                      fontSize: AppConfig().fsTitleSmall,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -116,8 +88,8 @@ class DetailScreen extends ConsumerWidget {
                           },
                           child: Image.asset(
                             'assets/icons/${data.platform}.png',
-                            width: 20,
-                            height: 20,
+                            width: 20.w,
+                            height: 20.w,
                           ),
                         )
                       : null,
@@ -131,49 +103,38 @@ class DetailScreen extends ConsumerWidget {
                         children: [
                           if (data.owner != null)
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              padding: EdgeInsets.symmetric(vertical: 15.w),
                               child: Row(
                                 children: [
                                   if (data.owner!.profileUrl != null)
                                     Padding(
-                                      padding: const EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.only(right: 10.w),
                                       child: NetworkImageFadeWidget(
-                                        width: 30,
-                                        height: 30,
+                                        width: 30.w,
+                                        height: 30.w,
                                         imageUrl: data.owner!.profileUrl,
-                                        radius: 30,
+                                        radius: 30.r,
                                       ),
                                     ),
                                   Text(
                                     data.owner!.username,
                                     style: TextStyle(
-                                      fontSize: ThemeConstants().fsText,
+                                      fontSize: AppConfig().fsText,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-
-                          // if (data.thumb != null && data.images == null)
-                          //   NetworkImageFadeWidget(
-                          //     width: 1.sw,
-                          //     height: 1.sw - 40,
-                          //     imageUrl: data.thumb,
-                          //     radius: 8,
-                          //     fit: BoxFit.contain,
-                          //   ),
-                          // const SizedBox(height: 20),
-
                           ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: items.length,
                             separatorBuilder: (context, index) =>
-                                const SizedBox(height: 30),
+                                SizedBox(height: 30.w),
                             itemBuilder: (context, index) => items[index],
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.w),
                         ],
                       ),
                     ),
@@ -207,7 +168,7 @@ class ImageDetailItem extends StatelessWidget {
         //   child: Text(
         //     'Image',
         //     style: TextStyle(
-        //       fontSize: ThemeConstants().fsTitrSub,
+        //       fontSize: AppConfig().fsTitrSub,
         //       fontWeight: FontWeight.w600,
         //     ),
         //   ),
@@ -237,6 +198,7 @@ class ImageDetailItem extends StatelessWidget {
                 const SizedBox(height: 15),
                 DownloadButton(
                   param: DownloadBtnParam(
+                      platform: data.platform,
                       title: data.images![index].title,
                       fileUrl: data.images![index].url,
                       fileName:
@@ -272,7 +234,7 @@ class VideosDetailItem extends StatelessWidget {
             child: Text(
               'Video',
               style: TextStyle(
-                fontSize: ThemeConstants().fsTitrSub,
+                fontSize: AppConfig().fsTitrSub,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -300,6 +262,7 @@ class VideosDetailItem extends StatelessWidget {
               const SizedBox(height: 15),
               DownloadButton(
                 param: DownloadBtnParam(
+                  platform: data.platform,
                   title: data.videos![index].title,
                   fileUrl: data.videos![index].url,
                   fileName:
@@ -332,7 +295,7 @@ class AudioDetailItem extends StatelessWidget {
         Text(
           'Audio',
           style: TextStyle(
-            fontSize: ThemeConstants().fsTitrSub,
+            fontSize: AppConfig().fsTitrSub,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -344,6 +307,7 @@ class AudioDetailItem extends StatelessWidget {
           separatorBuilder: (context, index) => const SizedBox(height: 15),
           itemBuilder: (context, index) => DownloadButton(
             param: DownloadBtnParam(
+              platform: data.platform,
               title: data.audios![index].title,
               fileUrl: data.audios![index].url,
               fileName:
@@ -375,7 +339,7 @@ class CaptionItem extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            fontSize: ThemeConstants().fsTitrSub,
+            fontSize: AppConfig().fsTitrSub,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -384,13 +348,13 @@ class CaptionItem extends StatelessWidget {
           sub,
           textAlign: TextAlign.left,
           style: TextStyle(
-            fontSize: ThemeConstants().fsText,
+            fontSize: AppConfig().fsText,
             fontWeight: FontWeight.w300,
           ),
         ),
         const SizedBox(height: 20),
         PrimaryButtonWidget(
-          backgroundColor: ThemeConstants.gray,
+          backgroundColor: AppConfig.gray,
           icon: Icons.file_copy_outlined,
           text: 'Copy to Clipboard',
           async: false,

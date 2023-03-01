@@ -1,38 +1,38 @@
 import 'dart:io';
 import 'package:catchit/core/helper/calculator.dart';
+import 'package:catchit/core/helper/error_msg.dart';
+import 'package:catchit/core/helper/save_file_in_storage.dart';
 import 'package:catchit/core/params/download_param.dart';
 import 'package:catchit/core/services/internet.dart';
-import 'package:catchit/core/services/storage.dart';
 import 'package:catchit/core/utils/global_widgets/modals/network_error.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
+import 'package:catchit/future/history/controller.dart';
+import 'package:catchit/future/history/domain/entity.dart';
 import 'package:catchit/screens/detail/detail_controller.dart';
 import 'package:catchit/core/utils/global_widgets/modals/success_download_modal.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:catchit/core/helper/app_storage_path.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
-class DownloadButton extends StatefulWidget {
-  const DownloadButton({
-    super.key,
-    required this.param,
-  });
+class DownloadButton extends ConsumerStatefulWidget {
+  const DownloadButton({super.key, required this.param});
 
   final DownloadBtnParam param;
 
   @override
-  State<DownloadButton> createState() => _DownloadButtonState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _DownloadButtonState();
 }
 
-class _DownloadButtonState extends State<DownloadButton> {
+class _DownloadButtonState extends ConsumerState<DownloadButton> {
   bool downloading = false;
   bool isFailed = false;
   bool isSuccess = false;
@@ -69,6 +69,7 @@ class _DownloadButtonState extends State<DownloadButton> {
         if (response.statusCode == 200) {
           file = File(filePath);
           networkError = null;
+
           return true;
         } else {
           networkError = null;
@@ -81,15 +82,12 @@ class _DownloadButtonState extends State<DownloadButton> {
         return false;
       }
     } else {
-      networkErrorModal(context: context);
+      if (context.mounted) networkErrorModal(context: context);
       return false;
     }
   }
 
   startDownload() async {
-    // String donwloadPath =
-    //     '${await AppStoragePath().getPath()}/${widget.param.fileName}';
-    // if (await File(donwloadPath).exists()) {
     if (mounted) {
       setState(() {
         isFailed = false;
@@ -106,20 +104,54 @@ class _DownloadButtonState extends State<DownloadButton> {
           downloading = false;
           isSuccess = true;
         });
-        String result = await DetailController()
-            .createFile(param: widget.param, file: file);
-        if (result != 'success') {
-          Fluttertoast.showToast(msg: result);
+        // String? result =
+        //     await saveFileInStorage(param: widget.param, file: file);
+        // if (result != null) {
+        //   ref.read(historyProvider).add(
+        //         FileEntity(
+        //           platform: widget.param.platform,
+        //           format: widget.param.isAudio
+        //               ? 'audio'
+        //               : widget.param.isVideo
+        //                   ? 'video'
+        //                   : 'image',
+        //           link: widget.param.fileUrl,
+        //           file: result,
+        //           title: widget.param.fileName,
+        //         ),
+        //       );
+        // } else {
+        //   Fluttertoast.showToast(msg: "can't saved, try again");
+        // }
+
+        String? result =
+            await saveFileInStorage(param: widget.param, file: file);
+        if (result == fileExict) {
+          Fluttertoast.showToast(msg: fileExict);
+        } else if (result == null) {
+          Fluttertoast.showToast(msg: "can't saved, try again");
+        } else {
+          ref.read(historyProvider).add(
+                FileEntity(
+                  platform: widget.param.platform,
+                  format: widget.param.isAudio
+                      ? 'audio'
+                      : widget.param.isVideo
+                          ? 'video'
+                          : 'image',
+                  link: widget.param.fileUrl,
+                  file: result,
+                  title: widget.param.fileName,
+                ),
+              );
+          HapticFeedback.vibrate();
+          if (context.mounted) successSaveModal(context: context);
         }
       }
       HapticFeedback.vibrate();
     } else {
       if (mounted) setState(() => isFailed = true);
     }
-    // } else {
-    //   Fluttertoast.showToast(
-    //       msg: "You already have this file, please check : $donwloadPath");
-    // }
   }
 
   @override
@@ -135,7 +167,7 @@ class _DownloadButtonState extends State<DownloadButton> {
       children: [
         if (widget.param.title != null)
           Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: EdgeInsets.only(bottom: 10.w),
             child: Text(
               widget.param.title as String,
               textAlign: TextAlign.left,
@@ -143,7 +175,7 @@ class _DownloadButtonState extends State<DownloadButton> {
               maxLines: 2,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
-                fontSize: ThemeConstants().fsTitleSmall,
+                fontSize: AppConfig().fsTitleSmall,
                 color: Colors.white,
               ),
             ),
@@ -154,15 +186,28 @@ class _DownloadButtonState extends State<DownloadButton> {
               Expanded(
                 child: PrimaryButtonWidget(
                   function: () async {
-                    String result = await DetailController().createFile(
-                      param: widget.param,
-                      file: file,
-                    );
-                    if (result == 'success') {
-                      HapticFeedback.vibrate();
-                      successSaveModal(context: context);
+                    String? result = await saveFileInStorage(
+                        param: widget.param, file: file);
+                    if (result == fileExict) {
+                      Fluttertoast.showToast(msg: fileExict);
+                    } else if (result == null) {
+                      Fluttertoast.showToast(msg: "can't saved, try again");
                     } else {
-                      Fluttertoast.showToast(msg: result);
+                      ref.read(historyProvider).add(
+                            FileEntity(
+                              platform: widget.param.platform,
+                              format: widget.param.isAudio
+                                  ? 'audio'
+                                  : widget.param.isVideo
+                                      ? 'video'
+                                      : 'image',
+                              link: widget.param.fileUrl,
+                              file: result,
+                              title: widget.param.fileName,
+                            ),
+                          );
+                      HapticFeedback.vibrate();
+                      if (context.mounted) successSaveModal(context: context);
                     }
                   },
                   backgroundColor: const Color(0x0F25A777),
@@ -172,7 +217,7 @@ class _DownloadButtonState extends State<DownloadButton> {
                   icon: Icons.check_circle,
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Expanded(
                 child: PrimaryButtonWidget(
                   function: () async => await OpenFilex.open(file.path),
@@ -182,7 +227,7 @@ class _DownloadButtonState extends State<DownloadButton> {
                   icon: Icons.open_in_new,
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Expanded(
                 child: PrimaryButtonWidget(
                   function: () {
@@ -220,11 +265,11 @@ class _DownloadButtonState extends State<DownloadButton> {
                 ),
         if (networkError != null)
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(top: 10.w),
             child: Text(
               networkError!,
               style: TextStyle(
-                  color: Colors.red, fontSize: ThemeConstants().fsTextSmall),
+                  color: Colors.red, fontSize: AppConfig().fsTextSmall),
             ),
           )
       ],
@@ -246,30 +291,28 @@ class DownloadingBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
+      borderRadius: BorderRadius.circular(12.r),
       child: showProgress
           ? ColoredBox(
-              color: ThemeConstants.green.withOpacity(0.2),
+              color: AppConfig.red.withOpacity(0.2),
               child: SizedBox(
                 width: double.infinity,
-                height: 45,
+                height: 45.w,
                 child: Stack(
                   alignment: Alignment.centerLeft,
                   children: [
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      height: 45,
-                      width: (1.sw - 40) * progress / 100,
-                      color: isFailed
-                          ? const Color(0xFFFC564A)
-                          : ThemeConstants.green,
+                      height: 45.w,
+                      width: (1.sw - 40.w) * progress / 100,
+                      color: isFailed ? const Color(0xFFFC564A) : AppConfig.red,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         if (isFailed)
                           Padding(
-                            padding: const EdgeInsets.only(right: 10),
+                            padding: EdgeInsets.only(right: 10.w),
                             child: Icon(
                               Icons.replay,
                               size: 26.sp,
@@ -280,7 +323,7 @@ class DownloadingBox extends StatelessWidget {
                           isFailed ? 'try again' : '$progress%',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: ThemeConstants().fsTitleSmall,
+                            fontSize: AppConfig().fsTitleSmall,
                             color: Colors.white,
                           ),
                         ),
@@ -292,14 +335,14 @@ class DownloadingBox extends StatelessWidget {
             )
           : Container(
               width: double.infinity,
-              height: 45,
-              color: isFailed ? const Color(0xFFFC564A) : ThemeConstants.green,
+              height: 45.w,
+              color: isFailed ? const Color(0xFFFC564A) : AppConfig.red,
               child: isFailed
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 10),
+                          padding: EdgeInsets.only(right: 10.w),
                           child: Icon(
                             Icons.replay,
                             size: 26.sp,
@@ -310,21 +353,21 @@ class DownloadingBox extends StatelessWidget {
                           'try again',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: ThemeConstants().fsTitleSmall,
+                            fontSize: AppConfig().fsTitleSmall,
                             color: Colors.white,
                           ),
                         ),
                       ],
                     )
-                  : const Center(
+                  : Center(
                       child: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
+                        width: 30.w,
+                        height: 30.w,
+                        child: const CircularProgressIndicator(
+                            color: Colors.white),
                       ),
-                    )),
+                    ),
+            ),
     );
   }
 }

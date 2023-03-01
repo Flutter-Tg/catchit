@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:catchit/core/utils/animations/show_up_fade.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ObCatchPage extends StatelessWidget {
   const ObCatchPage({super.key, required this.navigatorKey});
@@ -10,7 +11,7 @@ class ObCatchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: ThemeConstants.black,
+      color: AppConfig.black,
       child: Stack(
         children: [
           SafeArea(
@@ -24,16 +25,16 @@ class ObCatchPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 180,
-            left: 20,
-            right: 20,
+            bottom: 180.w,
+            left: 20.w,
+            right: 20.w,
             child: ShowUpFadeAnimation(
               delay: 4,
               child: Text(
                 'Catch\nAnything you\nWant Quickly',
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
-                  fontSize: ThemeConstants().fsBannerSmall,
+                  fontSize: AppConfig().fsBannerSmall,
                 ),
               ),
             ),

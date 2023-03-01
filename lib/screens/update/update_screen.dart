@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:catchit/config/app_info.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:catchit/core/utils/global_widgets/screen_head.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -17,7 +17,7 @@ class UpdateScreen extends StatelessWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -27,33 +27,33 @@ class UpdateScreen extends StatelessWidget {
                 width: 250,
                 fit: BoxFit.contain,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.w),
               Text(
                 'New Update is Now Available🤩',
                 style: TextStyle(
-                  fontSize: ThemeConstants().fsTitrSub,
+                  fontSize: AppConfig().fsTitrSub,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.w),
               Text(
                 'You must update the application for access to new features and important problem fixes. The new version is now available in Google Play',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: ThemeConstants().fsText,
+                  fontSize: AppConfig().fsText,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.w),
               PrimaryButtonWidget(
                 text: 'UPDATE NOW',
                 async: true,
                 function: () async {
                   String link = '';
                   if (Platform.isAndroid) {
-                    link = AppInfo.googlePalyLink;
+                    link = AppConfig.googlePalyLink;
                   } else if (Platform.isIOS) {
-                    link = AppInfo.appStorPalyLink;
+                    link = AppConfig.appStorPalyLink;
                   }
                   try {
                     await launchUrlString(link,

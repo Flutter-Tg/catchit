@@ -1,4 +1,4 @@
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,9 +6,9 @@ class PrimaryButtonWidget extends StatefulWidget {
   const PrimaryButtonWidget({
     super.key,
     this.width,
-    this.height = 45,
-    this.radius = 12,
-    this.backgroundColor = ThemeConstants.green,
+    this.height,
+    this.radius,
+    this.backgroundColor = AppConfig.red,
     this.textColor = Colors.white,
     required this.text,
     required this.async,
@@ -16,8 +16,8 @@ class PrimaryButtonWidget extends StatefulWidget {
     this.icon,
   });
   final double? width;
-  final double height;
-  final double radius;
+  final double? height;
+  final double? radius;
   final Color backgroundColor;
   final Color textColor;
   final String text;
@@ -45,17 +45,17 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: widget.backgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
+          borderRadius: BorderRadius.circular(widget.radius ?? 12.r),
         ),
         child: SizedBox(
           width: widget.width,
-          height: widget.height,
+          height: widget.height ?? 45.w,
           child: Center(
             child: inProgress
                 ? ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: widget.height - 10,
-                      maxWidth: widget.height - 10,
+                      maxHeight: (widget.height ?? 45.w) - 10.w,
+                      maxWidth: (widget.height ?? 45.w) - 10.w,
                     ),
                     child: const CircularProgressIndicator(
                       color: Colors.white,
@@ -66,7 +66,7 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
                     children: [
                       if (widget.icon != null)
                         Padding(
-                          padding: const EdgeInsets.only(right: 10),
+                          padding: EdgeInsets.only(right: 10.r),
                           child: Icon(
                             widget.icon,
                             size: 26.sp,
@@ -77,7 +77,7 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
                         widget.text,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: ThemeConstants().fsTitleSmall,
+                          fontSize: AppConfig().fsTitleSmall,
                           color: widget.textColor,
                         ),
                       ),

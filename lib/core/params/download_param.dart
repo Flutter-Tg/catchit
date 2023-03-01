@@ -1,4 +1,5 @@
 class DownloadBtnParam {
+  final String platform;
   final String? title;
   final String fileUrl;
   final String fileName;
@@ -8,7 +9,8 @@ class DownloadBtnParam {
   final bool isVideo;
 
   DownloadBtnParam(
-      {this.title,
+      {required this.platform,
+      this.title,
       required this.fileUrl,
       required this.fileName,
       this.fileSize,

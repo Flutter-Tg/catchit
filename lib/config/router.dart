@@ -89,7 +89,7 @@ GoRouter baseRouter = GoRouter(
             return CupertinoPage(
               key: state.pageKey,
               restorationId: state.pageKey.value,
-              child: HistoryScreen(),
+              child: const HistoryScreen(),
             );
           },
         ),

@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:catchit/core/services/privacy.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:catchit/core/utils/global_widgets/screen_head.dart';
@@ -9,6 +9,7 @@ import 'package:catchit/core/utils/global_widgets/screen_head.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -21,11 +22,11 @@ class PrivacyScreen extends ConsumerWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 30),
+              SizedBox(height: 30.w),
               Align(
                 alignment: Alignment.centerLeft,
                 child: InkWell(
@@ -33,28 +34,28 @@ class PrivacyScreen extends ConsumerWidget {
                   child: Text(
                     'Disagree',
                     style: TextStyle(
-                      fontSize: ThemeConstants().fsText,
+                      fontSize: AppConfig().fsText,
                       fontWeight: FontWeight.w500,
-                      color: ThemeConstants.lightGray,
+                      color: AppConfig.lightGray,
                     ),
                   ),
                 ),
               ),
               const Spacer(),
               SizedBox(
-                width: 170,
-                height: 170,
+                width: 170.w,
+                height: 170.w,
                 child: Lottie.asset('assets/lottie/privacy.json'),
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.w),
               Text(
                 'Privacy & Policy',
                 style: TextStyle(
-                  fontSize: ThemeConstants().fsBanner,
+                  fontSize: AppConfig().fsBanner,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.w),
               InkWell(
                 onTap: () async {
                   try {
@@ -69,7 +70,7 @@ class PrivacyScreen extends ConsumerWidget {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: TextStyle(
-                      fontSize: ThemeConstants().fsTitleSmall,
+                      fontSize: AppConfig().fsTitleSmall,
                       fontWeight: FontWeight.w500,
                     ),
                     children: const [
@@ -77,7 +78,7 @@ class PrivacyScreen extends ConsumerWidget {
                       TextSpan(
                         text: 'Privacy & Policy',
                         style: TextStyle(
-                            color: ThemeConstants.green,
+                            color: AppConfig.red,
                             decoration: TextDecoration.underline),
                       ),
                       TextSpan(
@@ -87,7 +88,7 @@ class PrivacyScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
+              SizedBox(height: 50.w),
               PrimaryButtonWidget(
                 text: 'Accept and Continue',
                 async: true,

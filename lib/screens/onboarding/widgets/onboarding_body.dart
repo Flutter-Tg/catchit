@@ -1,8 +1,7 @@
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
+import 'package:catchit/core/utils/animations/show_up_fade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../core/utils/animations/show_up_fade.dart';
 
 class OnboardingBody extends StatelessWidget {
   const OnboardingBody(
@@ -13,7 +12,7 @@ class OnboardingBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: ThemeConstants.black,
+      color: AppConfig.black,
       child: Stack(
         children: [
           SafeArea(

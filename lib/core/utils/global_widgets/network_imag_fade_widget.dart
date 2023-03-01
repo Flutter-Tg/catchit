@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:catchit/core/utils/consts/theme_constants.dart';
+import 'package:catchit/config/app_config.dart';
+import 'package:catchit/core/helper/save_image.dart';
 import 'package:flutter/material.dart';
 import 'package:octo_image/octo_image.dart';
 
@@ -23,19 +26,29 @@ class NetworkImageFadeWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(radius)),
       child: ColoredBox(
-        color: ThemeConstants.blackGray,
+        color: AppConfig.blackGray,
         child: SizedBox(
           width: width,
-          height: height,
+          height: height == null
+              ? width
+              : height == 0
+                  ? null
+                  : width,
           child: imageUrl == null || imageUrl == ''
               ? null
-              : OctoImage(
-                  image: CachedNetworkImageProvider(imageUrl!),
-                  placeholderBuilder:
-                      OctoPlaceholder.blurHash('L03baqj]fQj]oMfQfQfQfQfQfQfQ'),
-                  errorBuilder: OctoError.icon(icon: Icons.wifi_off_rounded),
-                  fit: fit,
-                ),
+              : imageUrl!.contains('http:/') || imageUrl!.contains('https://')
+                  ? OctoImage(
+                      image: CachedNetworkImageProvider(imageUrl!),
+                      placeholderBuilder: OctoPlaceholder.blurHash(
+                          'L03baqj]fQj]oMfQfQfQfQfQfQfQ'),
+                      errorBuilder:
+                          OctoError.icon(icon: Icons.wifi_off_rounded),
+                      fit: fit,
+                    )
+                  : Image.memory(
+                      Utility.dataFromBase64String(imageUrl.toString()),
+                      fit: fit,
+                    ),
         ),
       ),
     );

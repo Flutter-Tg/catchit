@@ -1,13 +1,15 @@
-import 'package:catchit/core/utils/consts/theme_constants.dart';
 import 'package:flutter/material.dart';
 
+import 'app_config.dart';
+
 ThemeData darkTheme = ThemeData(
-  fontFamily: ThemeConstants.ffIanter,
+  useMaterial3: true,
+  fontFamily: AppConfig.ffIanter,
   brightness: Brightness.dark,
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
-  primaryColor: ThemeConstants.green,
+  primaryColor: AppConfig.red,
   colorScheme: const ColorScheme.dark().copyWith(
-    background: ThemeConstants.black,
+    background: AppConfig.black,
   ),
 );
