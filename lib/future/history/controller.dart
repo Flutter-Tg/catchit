@@ -1,7 +1,5 @@
 import 'package:catchit/core/locator/locator.dart';
 import 'package:catchit/core/resources/data_state.dart';
-import 'package:catchit/future/detail/data_source/repository/repository_impl.dart';
-import 'package:catchit/future/detail/domain/entity/detail.dart';
 import 'package:catchit/future/history/data/repository.dart';
 import 'package:catchit/future/history/domain/entity.dart';
 import 'package:flutter/cupertino.dart';

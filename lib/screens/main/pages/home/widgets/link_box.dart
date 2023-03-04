@@ -147,7 +147,7 @@ class LinkBoxState extends State<LinkBox> {
                     topRight: Radius.circular(12),
                     bottomRight: Radius.circular(12),
                   ),
-                  color: isEmpty ? const Color(0xff2561A7) : AppConfig.red,
+                  color: isEmpty ? const Color(0xff2561A7) : AppConfig.lightRed,
                 ),
                 child: SizedBox(
                   width: 100.w,

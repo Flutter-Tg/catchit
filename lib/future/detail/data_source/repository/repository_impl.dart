@@ -199,7 +199,7 @@ class DetailRepositoryImpl extends DetailRepository {
                   videos.add(
                     DetailFile(
                       url: media,
-                      name: 'instagram-video-${generateRandomString(16)}',
+                      name: 'instagram1-video-${generateRandomString(16)}',
                       type: info.type,
                       size: info.size,
                     ),

@@ -56,8 +56,6 @@ GoRouter baseRouter = GoRouter(
       path: '/main',
       name: 'main',
       pageBuilder: (context, state) {
-        FirebaseAnalytics.instance.setCurrentScreen(screenName: 'main Screen');
-
         return CupertinoPage(
           key: state.pageKey,
           restorationId: state.pageKey.value,
@@ -69,8 +67,6 @@ GoRouter baseRouter = GoRouter(
           path: 'detail/:',
           name: 'detail',
           pageBuilder: (context, state) {
-            FirebaseAnalytics.instance
-                .setCurrentScreen(screenName: 'detail screen');
             final data = state.extra;
             return CupertinoPage(
               key: state.pageKey,
@@ -83,9 +79,6 @@ GoRouter baseRouter = GoRouter(
           path: 'history/:',
           name: 'history',
           pageBuilder: (context, state) {
-            FirebaseAnalytics.instance
-                .setCurrentScreen(screenName: 'history screen');
-
             return CupertinoPage(
               key: state.pageKey,
               restorationId: state.pageKey.value,

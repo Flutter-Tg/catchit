@@ -1,4 +1,5 @@
 import 'package:catchit/core/utils/global_state/route.dart';
+import 'package:catchit/core/utils/global_widgets/ads/merci.dart';
 import 'package:catchit/core/utils/global_widgets/modals/clean_history_modal.dart';
 import 'package:catchit/core/utils/global_widgets/modals/delete_item_modal.dart';
 import 'package:catchit/core/utils/global_widgets/screen_head.dart';
@@ -21,7 +22,9 @@ class HistoryScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _HistoryScreenState();
 }
 
-class _HistoryScreenState extends ConsumerState<HistoryScreen> {
+class _HistoryScreenState extends ConsumerState<HistoryScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
   List<FileEntity> selected = [];
   bool isSelected = false;
 
@@ -33,6 +36,12 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   }
 
   @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     isSelected = false;
     selected.clear();
@@ -41,6 +50,11 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final history = ref.watch(historyProvider).history;
+    final audios =
+        history.where((element) => element.format == "audio").toList();
+    final other =
+        history.where((element) => element.format != "audio").toList();
     return ScreenHead(
       child: Column(
         children: [
@@ -114,58 +128,157 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
             child: ShowDelay(
               child: Consumer(
                 builder: (context, ref, child) {
-                  final history = ref.watch(historyProvider).history;
                   if (history.isNotEmpty) {
-                    return GridView.builder(
-                      itemCount: history.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisExtent: 190.w,
-                        crossAxisSpacing: 5.w,
-                        mainAxisSpacing: 5.w,
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () {
-                          if (isSelected) {
-                            if (selected.contains(history[index])) {
-                              selected.remove(history[index]);
-                              if (selected.isEmpty) {
-                                isSelected = false;
-                              }
-                            } else {
-                              selected.add(history[index]);
-                            }
-                            setState(() {});
-                          } else {
-                            ref
-                                .read(routerProvider)
-                                .pushNamed('detail', extra: history[index]);
-                          }
-                        },
-                        onLongPress: () => setState(() {
-                          HapticFeedback.vibrate();
-                          selected.clear();
-                          isSelected = true;
-                          selected.add(history[index]);
-                        }),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 50),
-                          padding: EdgeInsets.all(7.w),
-                          decoration: BoxDecoration(
-                            color: selected.contains(history[index])
-                                ? AppConfig.blackGray
-                                : null,
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 350.w),
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(
-                                width: 1,
-                                color: selected.contains(history[index])
-                                    ? AppConfig.red
-                                    : Colors.transparent),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                border:
+                                    Border.all(width: 2, color: AppConfig.red),
+                              ),
+                              child: TabBar(
+                                controller: tabController,
+                                labelColor: Colors.white,
+                                unselectedLabelColor: Colors.white,
+                                labelStyle: TextStyle(
+                                  fontSize: AppConfig().fsText,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                indicatorColor: AppConfig.red,
+                                indicator:
+                                    const BoxDecoration(color: AppConfig.red),
+                                tabs: const [
+                                  Tab(
+                                    text: "Picture / Video",
+                                  ),
+                                  Tab(text: "Audio"),
+                                ],
+                              ),
+                            ),
                           ),
-                          child: HistoryItem(file: history[index]),
                         ),
-                      ),
+                        SizedBox(height: 15.w),
+                        Expanded(
+                          child: TabBarView(
+                            controller: tabController,
+                            children: [
+                              GridView.builder(
+                                itemCount: other.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  // mainAxisExtent: 190.w,
+                                  childAspectRatio: 1,
+                                  crossAxisSpacing: 5.w,
+                                  mainAxisSpacing: 5.w,
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                itemBuilder: (context, index) => InkWell(
+                                  onTap: () {
+                                    if (isSelected) {
+                                      if (selected.contains(other[index])) {
+                                        selected.remove(other[index]);
+                                        if (selected.isEmpty) {
+                                          isSelected = false;
+                                        }
+                                      } else {
+                                        selected.add(other[index]);
+                                      }
+                                      setState(() {});
+                                    } else {
+                                      ref.read(routerProvider).pushNamed(
+                                          'detail',
+                                          extra: other[index]);
+                                    }
+                                  },
+                                  onLongPress: () => setState(() {
+                                    HapticFeedback.vibrate();
+                                    selected.clear();
+                                    isSelected = true;
+                                    selected.add(other[index]);
+                                  }),
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 50),
+                                    padding: EdgeInsets.all(7.w),
+                                    decoration: BoxDecoration(
+                                      color: selected.contains(other[index])
+                                          ? AppConfig.blackGray
+                                          : null,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      border: Border.all(
+                                          width: 1,
+                                          color: selected.contains(other[index])
+                                              ? AppConfig.lightRed
+                                              : Colors.transparent),
+                                    ),
+                                    child: HistoryItem(file: other[index]),
+                                  ),
+                                ),
+                              ),
+                              GridView.builder(
+                                itemCount: audios.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  mainAxisExtent: 190.w,
+                                  crossAxisSpacing: 5.w,
+                                  mainAxisSpacing: 5.w,
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                itemBuilder: (context, index) => InkWell(
+                                  onTap: () {
+                                    if (isSelected) {
+                                      if (selected.contains(audios[index])) {
+                                        selected.remove(audios[index]);
+                                        if (selected.isEmpty) {
+                                          isSelected = false;
+                                        }
+                                      } else {
+                                        selected.add(audios[index]);
+                                      }
+                                      setState(() {});
+                                    } else {
+                                      ref.read(routerProvider).pushNamed(
+                                          'detail',
+                                          extra: audios[index]);
+                                    }
+                                  },
+                                  onLongPress: () => setState(() {
+                                    HapticFeedback.vibrate();
+                                    selected.clear();
+                                    isSelected = true;
+                                    selected.add(audios[index]);
+                                  }),
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 50),
+                                    padding: EdgeInsets.all(7.w),
+                                    decoration: BoxDecoration(
+                                      color: selected.contains(audios[index])
+                                          ? AppConfig.blackGray
+                                          : null,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      border: Border.all(
+                                          width: 1,
+                                          color:
+                                              selected.contains(audios[index])
+                                                  ? AppConfig.lightRed
+                                                  : Colors.transparent),
+                                    ),
+                                    child: HistoryItem(file: audios[index]),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   } else {
                     return Column(

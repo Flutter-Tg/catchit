@@ -169,7 +169,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                           onTap: () async => next(),
                           child: DecoratedBox(
                             decoration: const BoxDecoration(
-                              color: AppConfig.red,
+                              color: AppConfig.lightRed,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(12)),
                             ),

@@ -79,13 +79,20 @@ class ZoomDrawerState extends State<ZoomDrawer>
               children: [
                 const Spacer(flex: 2),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: Image.asset('assets/logo/logo.png',
-                      height: 25, fit: BoxFit.contain),
+                  padding: EdgeInsets.only(left: 30.w),
+                  child: Column(
+                    children: [
+                      Image.asset('assets/logo/donwload.png',
+                          height: 58.w, fit: BoxFit.contain),
+                      SizedBox(height: 15.w),
+                      Image.asset('assets/logo/logo.png',
+                          height: 25.w, fit: BoxFit.contain),
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30),
+                  padding: EdgeInsets.only(left: 30.w),
                   child: Consumer(
                     builder: (context, ref, child) {
                       final pageIndex = ref.watch(pageIndexProvider.notifier);
@@ -103,7 +110,7 @@ class ZoomDrawerState extends State<ZoomDrawer>
                                 fontSize: AppConfig().fsTitleSmall,
                                 fontWeight: FontWeight.w300,
                                 color: pageIndex.state == 0
-                                    ? AppConfig.red
+                                    ? AppConfig.lightRed
                                     : Colors.white,
                               ),
                             ),
@@ -120,7 +127,7 @@ class ZoomDrawerState extends State<ZoomDrawer>
                                 fontSize: AppConfig().fsTitleSmall,
                                 fontWeight: FontWeight.w300,
                                 color: pageIndex.state == 1
-                                    ? AppConfig.red
+                                    ? AppConfig.lightRed
                                     : Colors.white,
                               ),
                             ),
@@ -239,8 +246,8 @@ class ZoomDrawerState extends State<ZoomDrawer>
                             box!.localToGlobal(Offset.zero) & box.size);
                   },
                   child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(
+                    decoration: BoxDecoration(
+                        gradient: const LinearGradient(
                           colors: [
                             Color(0xffFF9900),
                             Color(0xffC95A1C),
@@ -249,12 +256,12 @@ class ZoomDrawerState extends State<ZoomDrawer>
                           end: Alignment.bottomCenter,
                         ),
                         borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(40),
-                          bottomRight: Radius.circular(40),
+                          topRight: Radius.circular(40.r),
+                          bottomRight: Radius.circular(40.r),
                         )),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.w, vertical: 10.w),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -279,7 +286,7 @@ class ZoomDrawerState extends State<ZoomDrawer>
                 ),
                 const Spacer(),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30),
+                  padding: EdgeInsets.only(left: 30.w),
                   child: InkWell(
                     onTap: () => closeDrawer(),
                     child: Row(
@@ -290,7 +297,7 @@ class ZoomDrawerState extends State<ZoomDrawer>
                           size: 26.sp,
                           color: const Color(0xff7b7b7b),
                         ),
-                        const SizedBox(width: 5),
+                        SizedBox(width: 5.w),
                         Text(
                           'Close Menu',
                           style: TextStyle(
@@ -305,7 +312,7 @@ class ZoomDrawerState extends State<ZoomDrawer>
                 ),
                 SizedBox(height: 0.2.sw),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30),
+                  padding: EdgeInsets.only(left: 30.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -315,7 +322,7 @@ class ZoomDrawerState extends State<ZoomDrawer>
                         size: 18.sp,
                         color: const Color(0xff7b7b7b),
                       ),
-                      const SizedBox(width: 5),
+                      SizedBox(width: 5.w),
                       Text(
                         'Copyright 2022\nCatchit  v${AppConfig.appVersion}',
                         style: TextStyle(

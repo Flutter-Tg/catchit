@@ -1,26 +1,31 @@
+import 'dart:io';
+
 import 'package:catchit/core/helper/disable_focus.dart';
-import 'package:catchit/core/utils/animations/show_scale_animation.dart';
 import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
+import 'package:catchit/core/utils/global_widgets/ads/exit_merci.dart';
 import 'package:catchit/core/utils/global_widgets/modals/model_body.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:lottie/lottie.dart';
 
-successSaveModal({required BuildContext context}) async {
+import '../ads/merci.dart';
+
+exitModal({required BuildContext context}) async {
   disableFocus();
   return await showDialog(
     context: context,
     builder: (context) => ModalBody(
-      child: SuccessSaveModal(screenContext: context),
+      child: ExitModal(
+        screenContext: context,
+      ),
     ),
   );
 }
 
-class SuccessSaveModal extends ConsumerWidget {
-  const SuccessSaveModal({super.key, required this.screenContext});
+class ExitModal extends ConsumerWidget {
+  const ExitModal({super.key, required this.screenContext});
   final BuildContext screenContext;
 
   @override
@@ -31,19 +36,19 @@ class SuccessSaveModal extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Lottie.asset('assets/lottie/like_a_boss.json', width: 120.w),
-          SizedBox(height: 10.w),
+          ExitMerciAdWidget(padding: EdgeInsets.only(bottom: 20.w)),
           Text(
-            'Saved Successfuly!',
+            'Are you sure to Exit?',
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: AppConfig().fsTitleSmall,
-                fontWeight: FontWeight.w700,
-                color: AppConfig.lightRed),
+              fontSize: AppConfig().fsTitleSmall,
+              fontWeight: FontWeight.w700,
+              color: Colors.blue,
+            ),
           ),
           SizedBox(height: 10.w),
           Text(
-            'Now, you can see this file in your Gallery or Player',
+            "Double check before you proceed.",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: AppConfig().fsText,
@@ -52,11 +57,20 @@ class SuccessSaveModal extends ConsumerWidget {
           ),
           SizedBox(height: 30.w),
           PrimaryButtonWidget(
-            backgroundColor: AppConfig.gray,
-            text: 'Got it',
+            backgroundColor: AppConfig.lightRed,
+            text: 'Cancel',
             async: false,
             function: () {
               ref.read(routerProvider).pop();
+            },
+          ),
+          const SizedBox(height: 10),
+          PrimaryButtonWidget(
+            backgroundColor: AppConfig.gray,
+            text: 'Exit',
+            async: false,
+            function: () {
+              exit(0);
             },
           ),
         ],

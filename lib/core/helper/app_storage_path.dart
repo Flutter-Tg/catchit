@@ -9,7 +9,7 @@ class AppStoragePath {
     if (Platform.isIOS) {
       directory = await getApplicationDocumentsDirectory();
     } else {
-      directory = Directory('/storage/emulated/0/Download');
+      directory = Directory('/storage/emulated/0/Download/Catchit');
       if (await directory.exists() == false) {
         directory = (await getExternalStorageDirectory())!;
       }

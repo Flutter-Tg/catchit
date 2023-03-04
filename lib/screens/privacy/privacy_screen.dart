@@ -78,7 +78,7 @@ class PrivacyScreen extends ConsumerWidget {
                       TextSpan(
                         text: 'Privacy & Policy',
                         style: TextStyle(
-                            color: AppConfig.red,
+                            color: AppConfig.lightRed,
                             decoration: TextDecoration.underline),
                       ),
                       TextSpan(

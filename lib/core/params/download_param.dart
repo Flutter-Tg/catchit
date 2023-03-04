@@ -1,5 +1,6 @@
 class DownloadBtnParam {
   final String platform;
+  final String? thump;
   final String? title;
   final String fileUrl;
   final String fileName;
@@ -10,6 +11,7 @@ class DownloadBtnParam {
 
   DownloadBtnParam(
       {required this.platform,
+      this.thump,
       this.title,
       required this.fileUrl,
       required this.fileName,

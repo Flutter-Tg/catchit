@@ -57,7 +57,7 @@ class NetworkErrorModal extends ConsumerWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          SizedBox(height: 300.w),
+          SizedBox(height: 30.w),
           PrimaryButtonWidget(
             backgroundColor: AppConfig.gray,
             text: 'Got it',

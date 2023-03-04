@@ -5,9 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flurry_sdk/flurry.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import 'package:catchit/config/theme.dart';
@@ -38,18 +40,17 @@ class CatchitApp extends ConsumerWidget {
         }
       },
       builder: (context, child) {
-        return child as Widget;
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          theme: darkTheme,
+          themeMode: ThemeMode.dark,
+          routerConfig: router,
+          builder: (context, child) {
+            ScreenUtil.init(context, designSize: designSize(Size(1.sw, 1.sh)));
+            return child as Widget;
+          },
+        );
       },
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        theme: darkTheme,
-        themeMode: ThemeMode.dark,
-        routerConfig: router,
-        builder: (context, child) {
-          ScreenUtil.init(context, designSize: designSize(Size(1.sw, 1.sh)));
-          return child as Widget;
-        },
-      ),
     );
   }
 }
@@ -62,8 +63,8 @@ Future setup() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     // DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
+    if (kDebugMode) DeviceOrientation.landscapeLeft,
+    if (kDebugMode) DeviceOrientation.landscapeRight,
   ]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -81,15 +82,36 @@ Future setup() async {
   await Hive.openBox('Review');
 
   // fierbase core
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+
+  try {
+    // await Flurry.initialize(
+    //   androidKey: "372DGRGG8STWJCSPZFB2",
+    //   iosKey: "xxx",
+    //   enableLog: kReleaseMode,
+    // );
+    Flurry.builder
+        .withCrashReporting(true)
+        .withLogEnabled(true)
+        .withLogLevel(LogLevel.debug)
+        .withReportLocation(true)
+        .build(androidAPIKey: "372DGRGG8STWJCSPZFB2", iosAPIKey: "");
+  } catch (e) {
+    debugPrint(e.toString());
+  }
 
   //! ads
-  // if (kReleaseMode) {
-  //   MobileAds.instance.initialize();
-  // } else {
-  //   MobileAds.instance.updateRequestConfiguration(RequestConfiguration(
-  //       testDeviceIds: ['2A4A033DE1974992A0D05292F33E341C']));
-  // }
+  if (kReleaseMode) {
+    MobileAds.instance.initialize();
+  } else {
+    MobileAds.instance.updateRequestConfiguration(RequestConfiguration(
+        testDeviceIds: ['2A4A033DE1974992A0D05292F33E341C']));
+  }
 
   //! notification
   if (Platform.isIOS && kDebugMode) {
@@ -117,5 +139,6 @@ Size designSize(Size screenSize) {
     size = const Size(1920, 1080);
     debugPrint('desktop');
   }
+
   return size;
 }

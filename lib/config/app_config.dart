@@ -5,7 +5,6 @@ class AppConfig {
   static const String rapidApiKey =
       '3eaa23ef94msh247217ad673c836p195bb3jsn6ce4fd1ad4a5';
   static const String appVersion = '1.6.0';
-  static const int detailDbVersion = 1;
   static const int fileDbVersion = 1;
   static const String googlePalyLink =
       'https://play.google.com/store/apps/details?id=com.catchit.app';

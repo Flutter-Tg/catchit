@@ -96,7 +96,6 @@ class DetailScreen extends ConsumerWidget {
                 ),
                 Expanded(
                   child: ShowDelay(
-                    duration: const Duration(seconds: 2),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,18 +161,6 @@ class ImageDetailItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // if (data.thumb != null && data.images == null)
-        // Padding(
-        //   padding: const EdgeInsets.only(bottom: 20),
-        //   child: Text(
-        //     'Image',
-        //     style: TextStyle(
-        //       fontSize: AppConfig().fsTitrSub,
-        //       fontWeight: FontWeight.w600,
-        //     ),
-        //   ),
-        // ),
-
         ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
@@ -199,6 +186,7 @@ class ImageDetailItem extends StatelessWidget {
                 DownloadButton(
                   param: DownloadBtnParam(
                       platform: data.platform,
+                      thump: data.thumb,
                       title: data.images![index].title,
                       fileUrl: data.images![index].url,
                       fileName:
@@ -263,6 +251,7 @@ class VideosDetailItem extends StatelessWidget {
               DownloadButton(
                 param: DownloadBtnParam(
                   platform: data.platform,
+                  thump: data.thumb,
                   title: data.videos![index].title,
                   fileUrl: data.videos![index].url,
                   fileName:
@@ -308,6 +297,7 @@ class AudioDetailItem extends StatelessWidget {
           itemBuilder: (context, index) => DownloadButton(
             param: DownloadBtnParam(
               platform: data.platform,
+              thump: data.thumb,
               title: data.audios![index].title,
               fileUrl: data.audios![index].url,
               fileName:

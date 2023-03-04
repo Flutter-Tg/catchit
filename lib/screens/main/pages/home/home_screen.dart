@@ -1,10 +1,9 @@
 import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/link_box.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
+import 'package:catchit/core/utils/global_widgets/ads/merci.dart';
 import 'package:catchit/core/utils/global_widgets/appbar_widget.dart';
-import 'package:catchit/core/utils/global_widgets/screen_head.dart';
 import 'package:catchit/future/detail/domain/entity/detail.dart';
-import 'package:catchit/future/history/controller.dart';
 import 'package:catchit/screens/main/main_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +20,19 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController linkController = TextEditingController();
+    // Future.delayed(const Duration(seconds: 1), () {
+    //   Clipboard.getData(Clipboard.kTextPlain).then((value) {
+    //     if (value != null && value.text != null) {
+    //       if ((value.text!.contains('tiktok') ||
+    //               value.text!.contains('instagram') ||
+    //               value.text!.contains('facebook') ||
+    //               value.text!.contains('fb')) &&
+    //           linkController.text.isEmpty) {
+    //         ref.read(linkBoxProvider).currentState!.add(value.text.toString());
+    //       }
+    //     }
+    //   });
+    // });
     return Column(
       children: [
         SafeArea(
@@ -74,22 +86,45 @@ class HomeScreen extends HookConsumerWidget {
                       SizedBox(height: 15.w),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          runAlignment: WrapAlignment.start,
-                          spacing: 10.w,
-                          runSpacing: 10.w,
-                          children: const [
-                            PlatformItem(
-                              asset: 'assets/icons/instagram.png',
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const PlatformItem(
+                              // asset: 'assets/icons/instagram.png',
                               title: 'Instagram',
                             ),
-                            PlatformItem(
-                              asset: 'assets/icons/tiktok.png',
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w),
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  color: Color(0xff383838),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: SizedBox(
+                                  width: 9.w,
+                                  height: 9.w,
+                                ),
+                              ),
+                            ),
+                            const PlatformItem(
+                              // asset: 'assets/icons/tiktok.png',
                               title: 'TikTok',
                             ),
-                            PlatformItem(
-                              asset: 'assets/icons/facebook.png',
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w),
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  color: Color(0xff383838),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: SizedBox(
+                                  width: 9.w,
+                                  height: 9.w,
+                                ),
+                              ),
+                            ),
+                            const PlatformItem(
+                              // asset: 'assets/icons/facebook.png',
                               title: 'Facebook',
                             ),
                           ],
@@ -116,7 +151,41 @@ class HomeScreen extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 20.w),
+                SizedBox(height: 15.w),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const PlatformVerticalItem(
+                      // asset: 'assets/icons/instagram.png',
+                      title: 'Instagram',
+                      titleColor: Color(0xffFFB14E),
+                      sub: 'Post / Reels / Story',
+                    ),
+                    LimitedBox(
+                      maxWidth: 20.w,
+                      child: const SizedBox(width: double.infinity),
+                    ),
+                    const PlatformVerticalItem(
+                      // asset: 'assets/icons/tiktok.png',
+                      title: 'TikTok',
+                      titleColor: Color(0xffFF5454),
+                      sub: 'Video & Audio',
+                    ),
+                    LimitedBox(
+                      maxWidth: 20.w,
+                      child: const SizedBox(width: double.infinity),
+                    ),
+                    const PlatformVerticalItem(
+                      // asset: 'assets/icons/facebook.png',
+                      title: 'Facebook',
+                      titleColor: Color(0xff1877F2),
+                      sub: 'Video',
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15.w),
+                const MerciAdWidget(),
               ],
             ),
           ),

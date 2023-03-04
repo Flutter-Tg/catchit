@@ -1,17 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:catchit/core/services/internet.dart';
+import 'package:catchit/core/services/ads.dart';
 import 'package:catchit/core/services/privacy.dart';
+import 'package:catchit/core/services/update.dart';
 import 'package:catchit/core/utils/animations/show_up_fade.dart';
 import 'package:catchit/config/app_config.dart';
+import 'package:catchit/core/utils/global_state/ads.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
 import 'package:catchit/future/history/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'splash_controller.dart';
 
 class SplashScreen extends HookConsumerWidget {
   const SplashScreen({super.key});
@@ -21,18 +22,21 @@ class SplashScreen extends HookConsumerWidget {
     FlutterNativeSplash.remove();
 
     Future init() async {
-      if (await InternetService().checkConncetivity()) {}
-      bool privacy = await PrivacyService().checkAcepted();
-      await ref.read(historyProvider).getHistory();
-      await Future.delayed(const Duration(seconds: 3));
-      if (privacy) {
-        ref.read(routerProvider).goNamed('main');
+      bool haveUpdate = await UpdateService().checkNewVersion();
+      if (haveUpdate) {
+        ref.read(routerProvider).goNamed('update');
       } else {
-        ref.read(routerProvider).goNamed('privacy');
+        bool privacy = await PrivacyService().checkAcepted();
+        await ref.read(historyProvider).getHistory();
+        await Future.delayed(const Duration(seconds: 3));
+        if (privacy) {
+          ref.read(routerProvider).goNamed('main');
+        } else {
+          ref.read(routerProvider).goNamed('privacy');
+        }
       }
     }
 
-    SplashController().checkVersion(context);
     init();
     return Material(
       color: Theme.of(context).colorScheme.background,

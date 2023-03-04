@@ -3,12 +3,12 @@ import 'package:catchit/core/helper/calculator.dart';
 import 'package:catchit/core/helper/error_msg.dart';
 import 'package:catchit/core/helper/save_file_in_storage.dart';
 import 'package:catchit/core/params/download_param.dart';
+import 'package:catchit/core/services/ads.dart';
 import 'package:catchit/core/services/internet.dart';
 import 'package:catchit/core/utils/global_widgets/modals/network_error.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:catchit/future/history/controller.dart';
 import 'package:catchit/future/history/domain/entity.dart';
-import 'package:catchit/screens/detail/detail_controller.dart';
 import 'package:catchit/core/utils/global_widgets/modals/success_download_modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +19,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:catchit/core/helper/app_storage_path.dart';
 import 'package:catchit/config/app_config.dart';
+import 'package:media_scanner/media_scanner.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+
+import 'donwnload_success.dart';
 
 class DownloadButton extends ConsumerStatefulWidget {
   const DownloadButton({super.key, required this.param});
@@ -33,6 +36,7 @@ class DownloadButton extends ConsumerStatefulWidget {
 }
 
 class _DownloadButtonState extends ConsumerState<DownloadButton> {
+  bool canDownload = false;
   bool downloading = false;
   bool isFailed = false;
   bool isSuccess = false;
@@ -43,11 +47,15 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
 
   Future<bool> donwnloadFile() async {
     Dio dio = Dio();
-    if (await InternetService().checkConncetivity()) {
+    if (canDownload == false) {
+      await AdService().showRewardAd(AdService.rewardAdUnitId1, () async {});
+      canDownload = true;
+    }
+    if (await InternetService().checkConncetivity() && canDownload) {
       try {
         await Permission.storage.request();
-        String path = await AppStoragePath().getCashPath();
-        String filePath = '$path/${widget.param.fileName}';
+        String filePath =
+            '${await AppStoragePath().getPath()}/${widget.param.fileName}';
         final response = await dio.download(
           widget.param.fileUrl,
           filePath,
@@ -69,7 +77,7 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
         if (response.statusCode == 200) {
           file = File(filePath);
           networkError = null;
-
+          MediaScanner.loadMedia(path: filePath);
           return true;
         } else {
           networkError = null;
@@ -104,49 +112,22 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
           downloading = false;
           isSuccess = true;
         });
-        // String? result =
-        //     await saveFileInStorage(param: widget.param, file: file);
-        // if (result != null) {
-        //   ref.read(historyProvider).add(
-        //         FileEntity(
-        //           platform: widget.param.platform,
-        //           format: widget.param.isAudio
-        //               ? 'audio'
-        //               : widget.param.isVideo
-        //                   ? 'video'
-        //                   : 'image',
-        //           link: widget.param.fileUrl,
-        //           file: result,
-        //           title: widget.param.fileName,
-        //         ),
-        //       );
-        // } else {
-        //   Fluttertoast.showToast(msg: "can't saved, try again");
-        // }
-
-        String? result =
-            await saveFileInStorage(param: widget.param, file: file);
-        if (result == fileExict) {
-          Fluttertoast.showToast(msg: fileExict);
-        } else if (result == null) {
-          Fluttertoast.showToast(msg: "can't saved, try again");
-        } else {
-          ref.read(historyProvider).add(
-                FileEntity(
-                  platform: widget.param.platform,
-                  format: widget.param.isAudio
-                      ? 'audio'
-                      : widget.param.isVideo
-                          ? 'video'
-                          : 'image',
-                  link: widget.param.fileUrl,
-                  file: result,
-                  title: widget.param.fileName,
-                ),
-              );
-          HapticFeedback.vibrate();
-          if (context.mounted) successSaveModal(context: context);
-        }
+        ref.read(historyProvider).add(
+              FileEntity(
+                platform: widget.param.platform,
+                format: widget.param.isAudio
+                    ? 'audio'
+                    : widget.param.isVideo
+                        ? 'video'
+                        : 'image',
+                link: widget.param.fileUrl,
+                file: file.path,
+                title: widget.param.fileName,
+                thumb: widget.param.thump,
+              ),
+            );
+        HapticFeedback.vibrate();
+        // if (context.mounted) successSaveModal(context: context);
       }
       HapticFeedback.vibrate();
     } else {
@@ -181,68 +162,9 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
             ),
           ),
         if (isSuccess)
-          Row(
-            children: [
-              Expanded(
-                child: PrimaryButtonWidget(
-                  function: () async {
-                    String? result = await saveFileInStorage(
-                        param: widget.param, file: file);
-                    if (result == fileExict) {
-                      Fluttertoast.showToast(msg: fileExict);
-                    } else if (result == null) {
-                      Fluttertoast.showToast(msg: "can't saved, try again");
-                    } else {
-                      ref.read(historyProvider).add(
-                            FileEntity(
-                              platform: widget.param.platform,
-                              format: widget.param.isAudio
-                                  ? 'audio'
-                                  : widget.param.isVideo
-                                      ? 'video'
-                                      : 'image',
-                              link: widget.param.fileUrl,
-                              file: result,
-                              title: widget.param.fileName,
-                            ),
-                          );
-                      HapticFeedback.vibrate();
-                      if (context.mounted) successSaveModal(context: context);
-                    }
-                  },
-                  backgroundColor: const Color(0x0F25A777),
-                  textColor: const Color(0xff25A778),
-                  async: true,
-                  text: 'Saved',
-                  icon: Icons.check_circle,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: PrimaryButtonWidget(
-                  function: () async => await OpenFilex.open(file.path),
-                  async: true,
-                  backgroundColor: const Color(0xff376BF2),
-                  text: 'Open',
-                  icon: Icons.open_in_new,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: PrimaryButtonWidget(
-                  function: () {
-                    final box = context.findRenderObject() as RenderBox?;
-                    Share.shareXFiles([XFile(file.path)],
-                        sharePositionOrigin:
-                            box!.localToGlobal(Offset.zero) & box.size);
-                  },
-                  async: true,
-                  backgroundColor: const Color(0xffBB2F59),
-                  text: 'Share',
-                  icon: Icons.share_outlined,
-                ),
-              ),
-            ],
+          DownlodaSuccess(
+            param: widget.param,
+            file: file,
           )
         else
           downloading
@@ -271,6 +193,23 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
               style: TextStyle(
                   color: Colors.red, fontSize: AppConfig().fsTextSmall),
             ),
+          ),
+        if (isSuccess == false)
+          Padding(
+            padding: EdgeInsets.only(top: 10.w),
+            child: Row(
+              children: [
+                Image.asset('assets/images/reward.png', width: 24.w),
+                SizedBox(width: 5.w),
+                Text(
+                  "Watch Ads To Download",
+                  style: TextStyle(
+                    color: const Color(0xffFFC305),
+                    fontSize: AppConfig().fsTextSmall,
+                  ),
+                ),
+              ],
+            ),
           )
       ],
     );
@@ -294,7 +233,7 @@ class DownloadingBox extends StatelessWidget {
       borderRadius: BorderRadius.circular(12.r),
       child: showProgress
           ? ColoredBox(
-              color: AppConfig.red.withOpacity(0.2),
+              color: AppConfig.lightRed.withOpacity(0.2),
               child: SizedBox(
                 width: double.infinity,
                 height: 45.w,
@@ -305,7 +244,9 @@ class DownloadingBox extends StatelessWidget {
                       duration: const Duration(milliseconds: 200),
                       height: 45.w,
                       width: (1.sw - 40.w) * progress / 100,
-                      color: isFailed ? const Color(0xFFFC564A) : AppConfig.red,
+                      color: isFailed
+                          ? const Color(0xFFFC564A)
+                          : AppConfig.lightRed,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -336,7 +277,7 @@ class DownloadingBox extends StatelessWidget {
           : Container(
               width: double.infinity,
               height: 45.w,
-              color: isFailed ? const Color(0xFFFC564A) : AppConfig.red,
+              color: isFailed ? const Color(0xFFFC564A) : AppConfig.lightRed,
               child: isFailed
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,

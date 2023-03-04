@@ -85,7 +85,7 @@ class _$HistoryDatabase extends HistoryDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `FileEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `platform` TEXT NOT NULL, `format` TEXT NOT NULL, `link` TEXT NOT NULL, `file` TEXT NOT NULL, `title` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `FileEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `platform` TEXT NOT NULL, `format` TEXT NOT NULL, `link` TEXT NOT NULL, `file` TEXT NOT NULL, `thumb` TEXT, `title` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -113,6 +113,7 @@ class _$FileDao extends FileDao {
                   'format': item.format,
                   'link': item.link,
                   'file': item.file,
+                  'thumb': item.thumb,
                   'title': item.title
                 }),
         _fileEntityUpdateAdapter = UpdateAdapter(
@@ -125,6 +126,7 @@ class _$FileDao extends FileDao {
                   'format': item.format,
                   'link': item.link,
                   'file': item.file,
+                  'thumb': item.thumb,
                   'title': item.title
                 }),
         _fileEntityDeletionAdapter = DeletionAdapter(
@@ -137,6 +139,7 @@ class _$FileDao extends FileDao {
                   'format': item.format,
                   'link': item.link,
                   'file': item.file,
+                  'thumb': item.thumb,
                   'title': item.title
                 });
 
@@ -161,6 +164,7 @@ class _$FileDao extends FileDao {
             format: row['format'] as String,
             link: row['link'] as String,
             file: row['file'] as String,
+            thumb: row['thumb'] as String?,
             title: row['title'] as String));
   }
 
@@ -173,6 +177,7 @@ class _$FileDao extends FileDao {
             format: row['format'] as String,
             link: row['link'] as String,
             file: row['file'] as String,
+            thumb: row['thumb'] as String?,
             title: row['title'] as String),
         arguments: [id]);
   }
@@ -186,6 +191,7 @@ class _$FileDao extends FileDao {
             format: row['format'] as String,
             link: row['link'] as String,
             file: row['file'] as String,
+            thumb: row['thumb'] as String?,
             title: row['title'] as String),
         arguments: [link]);
   }

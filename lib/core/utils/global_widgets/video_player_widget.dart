@@ -8,8 +8,8 @@ import 'package:catchit/core/utils/global_state/mute.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'network_imag_fade_widget.dart';
 
 class VideoAutoPlayerWidget extends StatefulWidget {
@@ -438,7 +438,7 @@ class _VideoPlayerProgressBarWidgetState
       },
       barHeight: 4,
       baseBarColor: const Color(0xff2F2F2F).withOpacity(0.5),
-      progressBarColor: AppConfig.red,
+      progressBarColor: AppConfig.lightRed,
       thumbColor: Colors.white,
       timeLabelLocation: TimeLabelLocation.sides,
       timeLabelType: TimeLabelType.totalTime,
@@ -447,7 +447,7 @@ class _VideoPlayerProgressBarWidgetState
         fontWeight: FontWeight.w400,
         color: AppConfig.lightGray,
       ),
-      bufferedBarColor: AppConfig.red.withOpacity(0.3),
+      bufferedBarColor: AppConfig.lightRed.withOpacity(0.3),
     );
   }
 }

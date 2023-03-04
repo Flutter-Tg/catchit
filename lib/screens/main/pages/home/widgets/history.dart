@@ -45,22 +45,21 @@ class HistoryList extends ConsumerWidget {
           SizedBox(height: 10.w),
           SizedBox(
             height: 120.w,
-            child: ListView.builder(
+            child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               itemCount: history.length,
+              separatorBuilder: (context, index) => SizedBox(width: 20.w),
               itemBuilder: (context, index) => index < 9
-                  ? Padding(
-                      padding: EdgeInsets.only(right: 20.w),
-                      child: HistoryItem(
-                        file: history[index],
-                      ),
+                  ? SizedBox(
+                      width: 120.w,
+                      child: HistoryItem(file: history[index]),
                     )
                   : Align(
                       alignment: Alignment.topCenter,
                       child: SizedBox(
                         width: 100.w,
-                        height: 100.w,
+                        height: 120.w,
                         child: InkWell(
                           onTap: () =>
                               ref.read(routerProvider).goNamed('history'),
