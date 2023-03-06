@@ -226,7 +226,8 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen>
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
-                                  mainAxisExtent: 190.w,
+                                  // mainAxisExtent: 190.w,
+                                  childAspectRatio: 1,
                                   crossAxisSpacing: 5.w,
                                   mainAxisSpacing: 5.w,
                                 ),

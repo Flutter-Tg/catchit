@@ -15,24 +15,50 @@ class HistoryItem extends StatelessWidget {
       onTap: () async {
         await OpenFilex.open(file.file);
       },
-      child: file.thumb != null
-          ? NetworkImageFadeWidget(
-              width: double.infinity,
-              imageUrl: file.thumb,
-              radius: 8.r,
-              fit: BoxFit.cover,
-            )
-          : ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              child: ColoredBox(
-                color: AppConfig.lightGray,
-                child: SizedBox(
-                  width: 100.w,
-                  height: double.infinity,
-                  child: Image.asset('assets/images/no_image.png'),
+      child: Stack(
+        children: [
+          file.thumb != null
+              ? NetworkImageFadeWidget(
+                  width: double.infinity,
+                  imageUrl: file.thumb,
+                  radius: 8.r,
+                  fit: BoxFit.cover,
+                )
+              : DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: AppConfig.lightGray,
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/no_image.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: const SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+          Positioned(
+            top: 10.w,
+            left: 10.w,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.9),
+                shape: BoxShape.circle,
+              ),
+              child: SizedBox(
+                width: 50.w,
+                height: 50.w,
+                child: Center(
+                  child: Icon(
+                    Icons.picture_as_pdf,
+                  ),
                 ),
               ),
             ),
+          )
+        ],
+      ),
     );
   }
 }

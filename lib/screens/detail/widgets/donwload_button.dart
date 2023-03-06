@@ -113,7 +113,7 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
                 link: widget.param.fileUrl,
                 file: file.path,
                 title: widget.param.fileName,
-                thumb: widget.param.thump,
+                thumb: widget.param.isAudio ? null : widget.param.thump,
               ),
             );
         HapticFeedback.vibrate();
