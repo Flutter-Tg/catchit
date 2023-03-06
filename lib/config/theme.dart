@@ -8,7 +8,7 @@ ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
-  primaryColor: AppConfig.lightRed,
+  primaryColor: Colors.blueAccent,
   colorScheme: const ColorScheme.dark().copyWith(
     background: AppConfig.black,
   ),

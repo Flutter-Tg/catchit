@@ -20,7 +20,7 @@ class HistoryList extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'History',
@@ -31,7 +31,8 @@ class HistoryList extends ConsumerWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    HistoryInterstitialHelper().loadAd();
+                    // if (BannerConfig.history)
+                    //   HistoryInterstitialHelper().loadAd();
                     ref.read(routerProvider).goNamed('history');
                   },
                   child: Text(

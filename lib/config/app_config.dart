@@ -38,6 +38,8 @@ class AppConfig {
 }
 
 class ApiConfig {
+  static bool instagram1 = true;
+  static bool facebook1 = true;
   static bool tiktok1 = true;
   static bool tiktok2 = false;
   static bool tiktok3 = false;
@@ -47,6 +49,7 @@ class ApiConfig {
 
 class BannerConfig {
   static bool openApp = true;
-  static bool main = false;
-  static bool donwload = false;
+  static bool exit = true;
+  static bool main = true;
+  static bool history = true;
 }

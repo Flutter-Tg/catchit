@@ -50,7 +50,10 @@
 		<key>UIStatusBarHidden</key>
 		<true/>
 		<!-- //! gallery saver -->
-		<key>NSPhotoLibraryUsageDescription</key>
-		<string>To display the media downloaded by the user in the gallery</string>s
+		<key>NSAppTransportSecurity</key>
+		<string>to access videos using http and https</string>
+		<!-- //! ad -->
+		<!-- <key>GADApplicationIdentifier</key> -->
+		<!-- <string>a-app-pub-3940256099942544~3347511713</string> -->
 	</dict>
 </plist>

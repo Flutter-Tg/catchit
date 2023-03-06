@@ -186,7 +186,7 @@ class HomeScreen extends HookConsumerWidget {
                   ],
                 ),
                 SizedBox(height: 15.w),
-                const MainBannerWidget(),
+                // if(BannerConfig.main)const MainBannerWidget(),
               ],
             ),
           ),

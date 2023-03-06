@@ -65,7 +65,9 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
         if (response.statusCode == 200) {
           file = File(filePath);
           networkError = null;
-          MediaScanner.loadMedia(path: filePath);
+          if (Platform.isAndroid) {
+            MediaScanner.loadMedia(path: filePath);
+          }
           return true;
         } else {
           networkError = null;
@@ -204,7 +206,7 @@ class DownloadingBox extends StatelessWidget {
       borderRadius: BorderRadius.circular(12.r),
       child: showProgress
           ? ColoredBox(
-              color: AppConfig.lightRed.withOpacity(0.2),
+              color: Colors.blueAccent.withOpacity(0.2),
               child: SizedBox(
                 width: double.infinity,
                 height: 45.w,
@@ -217,7 +219,7 @@ class DownloadingBox extends StatelessWidget {
                       width: (1.sw - 40.w) * progress / 100,
                       color: isFailed
                           ? const Color(0xFFFC564A)
-                          : AppConfig.lightRed,
+                          : Colors.blueAccent,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -248,7 +250,7 @@ class DownloadingBox extends StatelessWidget {
           : Container(
               width: double.infinity,
               height: 45.w,
-              color: isFailed ? const Color(0xFFFC564A) : AppConfig.lightRed,
+              color: isFailed ? const Color(0xFFFC564A) : Colors.blueAccent,
               child: isFailed
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
