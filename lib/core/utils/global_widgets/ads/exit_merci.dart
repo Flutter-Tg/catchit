@@ -18,7 +18,7 @@ class _ExitMerciAdWidgetState extends State<ExitMerciAdWidget> {
       banner = ExitMerciAdHelper.bannerAd;
     } else {
       banner = BannerAd(
-        adUnitId: AdService.bannerAdUnitId2,
+        adUnitId: ExitMerciAdHelper.unitId,
         request: const AdRequest(),
         size: AdSize.mediumRectangle,
         listener: BannerAdListener(

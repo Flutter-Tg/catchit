@@ -64,35 +64,35 @@ class DetailScreen extends ConsumerWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  rightChild: data.platform != 'spotify' &&
-                          data.platform != 'youtube' &&
-                          data.platform != 'youtub_music'
-                      ? InkWell(
-                          onTap: () async {
-                            try {
-                              await launchUrlString(data.link,
-                                  mode: LaunchMode.externalApplication);
-                            } catch (e) {
-                              await launchUrlString(data.link,
-                                  mode: LaunchMode.platformDefault);
-                            }
-                          },
-                          onLongPress: () {
-                            HapticFeedback.vibrate();
-                            Clipboard.setData(
-                              ClipboardData(text: data.link),
-                            ).then(
-                              (value) => Fluttertoast.showToast(
-                                  msg: 'Link was Copied'),
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/icons/${data.platform}.png',
-                            width: 20.w,
-                            height: 20.w,
-                          ),
-                        )
-                      : null,
+                  // rightChild: data.platform != 'spotify' &&
+                  //         data.platform != 'youtube' &&
+                  //         data.platform != 'youtub_music'
+                  //     ? InkWell(
+                  //         onTap: () async {
+                  //           try {
+                  //             await launchUrlString(data.link,
+                  //                 mode: LaunchMode.externalApplication);
+                  //           } catch (e) {
+                  //             await launchUrlString(data.link,
+                  //                 mode: LaunchMode.platformDefault);
+                  //           }
+                  //         },
+                  //         onLongPress: () {
+                  //           HapticFeedback.vibrate();
+                  //           Clipboard.setData(
+                  //             ClipboardData(text: data.link),
+                  //           ).then(
+                  //             (value) => Fluttertoast.showToast(
+                  //                 msg: 'Link was Copied'),
+                  //           );
+                  //         },
+                  //         child: Image.asset(
+                  //           'assets/icons/${data.platform}.png',
+                  //           width: 20.w,
+                  //           height: 20.w,
+                  //         ),
+                  //       )
+                  //     : null,
                 ),
                 Expanded(
                   child: ShowDelay(

@@ -1,160 +1,41 @@
+import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/helper/error_msg.dart';
 import 'package:catchit/core/helper/get_file_info.dart';
 import 'package:catchit/core/helper/save_image.dart';
 import 'package:catchit/core/params/file_info.dart';
 import 'package:catchit/core/resources/data_state.dart';
 import 'package:catchit/core/services/internet.dart';
-import 'package:catchit/future/detail/data_source/local/dao.dart';
 import 'package:catchit/future/detail/data_source/remote/api_provider.dart';
+import 'package:catchit/future/detail/data_source/serializer/tiktok1.dart';
+import 'package:catchit/future/detail/data_source/serializer/tiktok2.dart';
+import 'package:catchit/future/detail/data_source/serializer/tiktok3.dart';
+import 'package:catchit/future/detail/data_source/serializer/tiktok4.dart';
+import 'package:catchit/future/detail/data_source/serializer/tiktok5.dart';
 import 'package:catchit/future/detail/domain/entity/detail.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:catchit/core/helper/generate_random_string.dart';
-import 'package:catchit/future/detail/domain/entity/detail_db.dart';
 import 'package:catchit/future/detail/domain/repository/repository.dart';
 
 class DetailRepositoryImpl extends DetailRepository {
-  // DetailDao detailDao;
   DetailApiProvider apiProvider;
-  DetailRepositoryImpl(
-      // this.detailDao,
-      this.apiProvider);
-
+  DetailRepositoryImpl(this.apiProvider);
   GetFileInfo getFileInfo = GetFileInfo();
-
-  // @override
-  // Future<DataState<List<DetailEntity>>> getDbDetails() async {
-  //   try {
-  //     List<DetailDbEntity> detailDbList = await detailDao.getAllDetails();
-  //     List<DetailEntity> details = [];
-  //     for (var detail in detailDbList) {
-  //       DetailEntity detailEntity = DetailEntity.fromDb(detail);
-  //       details.add(detailEntity);
-  //     }
-  //     return DataSuccess(details);
-  //   } catch (e) {
-  //     debugPrint('getDbDetails : error = $e');
-  //     return const DataFailed('error');
-  //   }
-  // }
-
-  // @override
-  // Future<DataState<dynamic>> addDetailToDb(DetailEntity detailEntity) async {
-  //   try {
-  //     DetailDbEntity detailDb = detailEntity.toDb();
-  //     await detailDao.insertDetail(detailDb);
-  //     return const DataSuccess(null);
-  //   } catch (e) {
-  //     debugPrint('addDetailToDb : error = $e');
-  //     return const DataFailed('error');
-  //   }
-  // }
-
-  // @override
-  // Future<DataState<dynamic>> deleteDbDetails() async {
-  //   try {
-  //     List<DetailDbEntity> detailDbList = await detailDao.getAllDetails();
-  //     for (var detail in detailDbList) {
-  //       await detailDao.deleteDetailbyId(detail.id as int);
-  //     }
-  //     return const DataSuccess(null);
-  //   } catch (e) {
-  //     debugPrint('deleteDbDetails : error = $e');
-  //     return const DataFailed('error');
-  //   }
-  // }
-
-  // @override
-  // Future<DataState<dynamic>> deleteDbDetail(int id) async {
-  //   try {
-  //     await detailDao.deleteDetailbyId(id);
-  //     return const DataSuccess(null);
-  //   } catch (e) {
-  //     debugPrint('deleteDbDetail : error = $e');
-  //     return const DataFailed('error');
-  //   }
-  // }
-
   @override
   Future<DataState<DetailEntity>> tiktokApi(String link) async {
     if (await InternetService().checkConncetivity()) {
       try {
-        Response response = await apiProvider.tiktok(link);
-        if (response.statusCode == 200) {
-          GetFileInfo getFileInfo = GetFileInfo();
-          final json = response.data;
-          List<DetailFile> videos = [];
-          if (json.containsKey('video')) {
-            for (var video in json['video']) {
-              FileInfoParam? info;
-              info = await getFileInfo.fileInfo(video);
-              info ??= FileInfoParam(format: 'video', type: 'mp4');
-              videos.add(
-                DetailFile(
-                  url: video,
-                  name: 'tiktok-veideo-${generateRandomString(16)}',
-                  type: info.type,
-                  size: info.size,
-                ),
-              );
-            }
-          }
-          List<DetailFile> audios = [];
-          if (json.containsKey('video')) {
-            for (var audio in json['music']) {
-              FileInfoParam? info;
-              info = await getFileInfo.fileInfo(audio);
-              info ??= FileInfoParam(format: 'audio', type: 'mp3');
-              audios.add(
-                DetailFile(
-                  url: audio,
-                  name: 'tiktok-audio-${generateRandomString(16)}',
-                  type: info.type,
-                  size: info.size,
-                ),
-              );
-            }
-          }
-
-          String? author =
-              json.containsKey('author') ? json['author'][0] : null;
-
-          DetailCaption? caption = json.containsKey('description')
-              ? DetailCaption(description: json['description'][0])
-              : null;
-
-          if (videos.isEmpty && audios.isEmpty && caption == null) {
-            return const DataFailed('SomethingWrong');
-          }
-
-          String? avatarThumb = json.containsKey('avatarThumb')
-              ? await getImageByt(json['avatarThumb'][0])
-              : null;
-
-          DetailOwner? owner = author != null || avatarThumb != null
-              ? DetailOwner(
-                  username: author.toString(),
-                  profileUrl: avatarThumb,
-                )
-              : null;
-
-          String? thumb = json.containsKey('cover')
-              ? await getImageByt(json['cover'][0])
-              : null;
-          DetailEntity data = DetailEntity(
-            platform: 'tiktok',
-            link: link,
-            title: author ?? 'tiktok',
-            owner: owner,
-            thumb: thumb,
-            videos: videos == [] ? null : videos,
-            audios: audios == [] ? null : audios,
-            caption: caption,
-          );
-          return DataSuccess(data);
+        if (ApiConfig.tiktok1) {
+          return await serializTiktok1(apiProvider.tiktok(link), link);
+        } else if (ApiConfig.tiktok2) {
+          return await serializTiktok2(apiProvider.tiktok2(link), link);
+        } else if (ApiConfig.tiktok3) {
+          return await serializTiktok3(apiProvider.tiktok3(link), link);
+        } else if (ApiConfig.tiktok4) {
+          return await serializTiktok4(apiProvider.tiktok4(link), link);
         } else {
-          return const DataFailed(somthinWorng);
+          return await serializTiktok5(apiProvider.tiktok5(link), link);
         }
       } catch (e) {
         debugPrint('tiktokApi : error = $e');

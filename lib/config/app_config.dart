@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppConfig {
   static const String rapidApiKey =
-      '3eaa23ef94msh247217ad673c836p195bb3jsn6ce4fd1ad4a5';
+      '01612b7d4cmsh25ca5b4c50ef1e0p12586cjsnb29f99843840';
   static const String appVersion = '1.6.0';
   static const int fileDbVersion = 1;
   static const String googlePalyLink =
@@ -33,4 +33,20 @@ class AppConfig {
   double fsTitr = 24.sp;
   double fsBannerSmall = 32.sp;
   double fsBanner = 36.sp;
+
+  static const Duration timeout = Duration(seconds: 20);
+}
+
+class ApiConfig {
+  static bool tiktok1 = true;
+  static bool tiktok2 = false;
+  static bool tiktok3 = false;
+  static bool tiktok4 = false;
+  static bool tiktok5 = false;
+}
+
+class BannerConfig {
+  static bool openApp = true;
+  static bool main = false;
+  static bool donwload = false;
 }

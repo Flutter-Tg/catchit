@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'package:catchit/core/helper/calculator.dart';
-import 'package:catchit/core/helper/error_msg.dart';
-import 'package:catchit/core/helper/save_file_in_storage.dart';
 import 'package:catchit/core/params/download_param.dart';
 import 'package:catchit/core/services/ads.dart';
 import 'package:catchit/core/services/internet.dart';
@@ -9,20 +7,16 @@ import 'package:catchit/core/utils/global_widgets/modals/network_error.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:catchit/future/history/controller.dart';
 import 'package:catchit/future/history/domain/entity.dart';
-import 'package:catchit/core/utils/global_widgets/modals/success_download_modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:catchit/core/helper/app_storage_path.dart';
 import 'package:catchit/config/app_config.dart';
 import 'package:media_scanner/media_scanner.dart';
-import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'donwnload_success.dart';
 
@@ -36,7 +30,6 @@ class DownloadButton extends ConsumerStatefulWidget {
 }
 
 class _DownloadButtonState extends ConsumerState<DownloadButton> {
-  bool canDownload = false;
   bool downloading = false;
   bool isFailed = false;
   bool isSuccess = false;
@@ -47,11 +40,10 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
 
   Future<bool> donwnloadFile() async {
     Dio dio = Dio();
-    if (canDownload == false) {
-      await AdService().showRewardAd(AdService.rewardAdUnitId1, () async {});
-      canDownload = true;
+    if (DownloadIntersialAdHelper.inShowing == false) {
+      await DownloadIntersialAdHelper().showAd();
     }
-    if (await InternetService().checkConncetivity() && canDownload) {
+    if (await InternetService().checkConncetivity()) {
       try {
         await Permission.storage.request();
         String filePath =
@@ -198,6 +190,7 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
           Padding(
             padding: EdgeInsets.only(top: 10.w),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset('assets/images/reward.png', width: 24.w),
                 SizedBox(width: 5.w),

@@ -18,7 +18,7 @@ class _MerciAdWidgetState extends State<MerciAdWidget> {
       banner = MerciAdHelper.bannerAd;
     } else {
       banner = BannerAd(
-        adUnitId: AdService.bannerAdUnitId1,
+        adUnitId: MerciAdHelper.unitId,
         request: const AdRequest(),
         size: AdSize.mediumRectangle,
         listener: BannerAdListener(
