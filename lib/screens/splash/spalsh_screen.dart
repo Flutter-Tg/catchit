@@ -36,7 +36,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     FlutterNativeSplash.remove();
 
     Future init() async {
-      // await appOpenAdManager.loadAd();
+      // if(BannerConfig.openApp) await appOpenAdManager.loadAd();
       bool haveUpdate = await UpdateService().checkNewVersion();
       if (haveUpdate) {
         ref.read(routerProvider).goNamed('update');

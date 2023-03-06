@@ -39,19 +39,24 @@ class HistoryItem extends StatelessWidget {
                   ),
                 ),
           Positioned(
-            top: 10.w,
-            left: 10.w,
+            top: 5.w,
+            left: 5.w,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.9),
+                color: const Color(0xff222222).withOpacity(0.9),
                 shape: BoxShape.circle,
               ),
               child: SizedBox(
-                width: 50.w,
-                height: 50.w,
+                width: 30.w,
+                height: 30.w,
                 child: Center(
                   child: Icon(
-                    Icons.picture_as_pdf,
+                    file.format == "audio"
+                        ? Icons.audiotrack
+                        : file.format == "video"
+                            ? Icons.videocam_rounded
+                            : Icons.photo_size_select_actual_rounded,
+                    size: 15.sp,
                   ),
                 ),
               ),

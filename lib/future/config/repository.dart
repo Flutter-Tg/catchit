@@ -11,11 +11,17 @@ class ConfigRepository {
       final snapshot = await configDB.get().timeout(AppConfig.timeout);
       if (snapshot.exists) {
         Map value = snapshot.value as Map;
+        ApiConfig.instagram1 = value['apis']['instagram1'];
+        ApiConfig.facebook1 = value['apis']['facebook1'];
         ApiConfig.tiktok1 = value['apis']['tiktok1'];
         ApiConfig.tiktok2 = value['apis']['tiktok2'];
         ApiConfig.tiktok3 = value['apis']['tiktok3'];
         ApiConfig.tiktok4 = value['apis']['tiktok4'];
         ApiConfig.tiktok5 = value['apis']['tiktok5'];
+        BannerConfig.openApp = value['banners']['openApp'];
+        BannerConfig.exit = value['banners']['exit'];
+        BannerConfig.main = value['banners']['openApp'];
+        BannerConfig.history = value['banners']['openApp'];
         return const DataSuccess('');
       } else {
         return const DataFailed('server');

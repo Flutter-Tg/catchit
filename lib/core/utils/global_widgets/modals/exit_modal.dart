@@ -34,7 +34,7 @@ class ExitModal extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // ExitBannerWidget(padding: EdgeInsets.only(bottom: 20.w)),
+          // if(BannerConfig.exit)ExitBannerWidget(padding: EdgeInsets.only(bottom: 20.w)),
           Text(
             'Are you sure to Exit?',
             textAlign: TextAlign.center,

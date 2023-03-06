@@ -31,7 +31,8 @@ class HistoryList extends ConsumerWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    // HistoryInterstitialHelper().loadAd();
+                    // if (BannerConfig.history)
+                    //   HistoryInterstitialHelper().loadAd();
                     ref.read(routerProvider).goNamed('history');
                   },
                   child: Text(

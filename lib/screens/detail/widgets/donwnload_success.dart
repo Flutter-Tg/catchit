@@ -49,7 +49,7 @@ class DownlodaSuccess extends ConsumerWidget {
                         link: param.fileUrl,
                         file: result,
                         title: param.fileName,
-                        thumb: param.isAudio ? null : param.thump,
+                        thumb: param.thump,
                       ),
                     );
                 HapticFeedback.vibrate();
