@@ -69,10 +69,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w700),
               ),
             ),
+            const Icon(Icons.photo_size_select_actual_rounded),
             ShowUpFadeAnimation(
               delay: 6,
               child: Text(
-                'Anything You ',
+                'Anything You',
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w700),
               ),
