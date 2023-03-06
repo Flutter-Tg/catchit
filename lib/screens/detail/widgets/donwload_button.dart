@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:catchit/core/helper/calculator.dart';
 import 'package:catchit/core/params/download_param.dart';
-import 'package:catchit/core/services/ads.dart';
 import 'package:catchit/core/services/internet.dart';
 import 'package:catchit/core/utils/global_widgets/modals/network_error.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
@@ -40,9 +39,6 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
 
   Future<bool> donwnloadFile() async {
     Dio dio = Dio();
-    if (DownloadIntersialAdHelper.inShowing == false) {
-      await DownloadIntersialAdHelper().showAd();
-    }
     if (await InternetService().checkConncetivity()) {
       try {
         await Permission.storage.request();
@@ -186,24 +182,6 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
                   color: Colors.red, fontSize: AppConfig().fsTextSmall),
             ),
           ),
-        if (isSuccess == false)
-          Padding(
-            padding: EdgeInsets.only(top: 10.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/images/reward.png', width: 24.w),
-                SizedBox(width: 5.w),
-                Text(
-                  "Watch Ads To Download",
-                  style: TextStyle(
-                    color: const Color(0xffFFC305),
-                    fontSize: AppConfig().fsTextSmall,
-                  ),
-                ),
-              ],
-            ),
-          )
       ],
     );
   }

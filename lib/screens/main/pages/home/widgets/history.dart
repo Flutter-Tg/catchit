@@ -1,4 +1,5 @@
 import 'package:catchit/config/app_config.dart';
+import 'package:catchit/core/services/ads/history_interstitial.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
 import 'package:catchit/core/utils/global_widgets/items/history_item.dart';
 import 'package:catchit/future/history/controller.dart';
@@ -29,7 +30,10 @@ class HistoryList extends ConsumerWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () => ref.read(routerProvider).goNamed('history'),
+                  onTap: () {
+                    HistoryInterstitialHelper().loadAd();
+                    ref.read(routerProvider).goNamed('history');
+                  },
                   child: Text(
                     'View All',
                     style: TextStyle(

@@ -3,14 +3,12 @@ import 'dart:io';
 import 'package:catchit/core/helper/disable_focus.dart';
 import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
-import 'package:catchit/core/utils/global_widgets/ads/exit_merci.dart';
+import 'package:catchit/core/utils/global_widgets/ads/exit.dart';
 import 'package:catchit/core/utils/global_widgets/modals/model_body.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../ads/merci.dart';
 
 exitModal({required BuildContext context}) async {
   disableFocus();
@@ -36,7 +34,7 @@ class ExitModal extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ExitMerciAdWidget(padding: EdgeInsets.only(bottom: 20.w)),
+          ExitBannerWidget(padding: EdgeInsets.only(bottom: 20.w)),
           Text(
             'Are you sure to Exit?',
             textAlign: TextAlign.center,

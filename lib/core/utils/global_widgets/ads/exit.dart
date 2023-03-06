@@ -1,31 +1,31 @@
-import 'package:catchit/core/services/ads.dart';
+import 'package:catchit/core/services/ads/exit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class MerciAdWidget extends StatefulWidget {
-  const MerciAdWidget({super.key, this.padding = EdgeInsets.zero});
+class ExitBannerWidget extends StatefulWidget {
+  const ExitBannerWidget({super.key, this.padding = EdgeInsets.zero});
   final EdgeInsets padding;
 
   @override
-  State<MerciAdWidget> createState() => _MerciAdWidgetState();
+  State<ExitBannerWidget> createState() => _ExitBannerWidgetState();
 }
 
-class _MerciAdWidgetState extends State<MerciAdWidget> {
+class _ExitBannerWidgetState extends State<ExitBannerWidget> {
   BannerAd? banner;
   @override
   void initState() {
-    if (MerciAdHelper.initialized) {
-      banner = MerciAdHelper.bannerAd;
+    if (ExitBannerHelper.initialized) {
+      banner = ExitBannerHelper.bannerAd;
     } else {
       banner = BannerAd(
-        adUnitId: MerciAdHelper.unitId,
+        adUnitId: ExitBannerHelper.unitId,
         request: const AdRequest(),
         size: AdSize.mediumRectangle,
         listener: BannerAdListener(
           onAdLoaded: (ad) {
             debugPrint('$ad loaded.');
-            MerciAdHelper.initialized = true;
-            MerciAdHelper.bannerAd = banner;
+            ExitBannerHelper.initialized = true;
+            ExitBannerHelper.bannerAd = banner;
             setState(() {});
           },
           onAdFailedToLoad: (ad, err) {

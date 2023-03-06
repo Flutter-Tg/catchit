@@ -1,7 +1,7 @@
 import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/link_box.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
-import 'package:catchit/core/utils/global_widgets/ads/merci.dart';
+import 'package:catchit/core/utils/global_widgets/ads/main.dart';
 import 'package:catchit/core/utils/global_widgets/appbar_widget.dart';
 import 'package:catchit/future/detail/domain/entity/detail.dart';
 import 'package:catchit/screens/main/main_controller.dart';
@@ -21,19 +21,19 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController linkController = TextEditingController();
-    Future.delayed(const Duration(seconds: 1), () {
-      Clipboard.getData(Clipboard.kTextPlain).then((value) {
-        if (value != null && value.text != null) {
-          if ((value.text!.contains('tiktok') ||
-                  value.text!.contains('instagram') ||
-                  value.text!.contains('facebook') ||
-                  value.text!.contains('fb')) &&
-              linkController.text.isEmpty) {
-            ref.read(linkBoxProvider).currentState!.add(value.text.toString());
-          }
-        }
-      });
-    });
+    // Future.delayed(const Duration(seconds: 1), () {
+    //   Clipboard.getData(Clipboard.kTextPlain).then((value) {
+    //     if (value != null && value.text != null) {
+    //       if ((value.text!.contains('tiktok') ||
+    //               value.text!.contains('instagram') ||
+    //               value.text!.contains('facebook') ||
+    //               value.text!.contains('fb')) &&
+    //           linkController.text.isEmpty) {
+    //         ref.read(linkBoxProvider).currentState!.add(value.text.toString());
+    //       }
+    //     }
+    //   });
+    // });
     return Column(
       children: [
         SafeArea(
@@ -186,7 +186,7 @@ class HomeScreen extends HookConsumerWidget {
                   ],
                 ),
                 SizedBox(height: 15.w),
-                const MerciAdWidget(),
+                const MainBannerWidget(),
               ],
             ),
           ),

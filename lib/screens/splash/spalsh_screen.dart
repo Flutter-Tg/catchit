@@ -1,27 +1,42 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:catchit/core/services/ads.dart';
+import 'package:catchit/core/services/ads/open_app.dart';
+import 'package:catchit/core/services/foregrounding_event.dart';
 import 'package:catchit/core/services/privacy.dart';
 import 'package:catchit/core/services/update.dart';
 import 'package:catchit/core/utils/animations/show_up_fade.dart';
 import 'package:catchit/config/app_config.dart';
-import 'package:catchit/core/utils/global_state/ads.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
 import 'package:catchit/future/history/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SplashScreen extends HookConsumerWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends ConsumerState<SplashScreen> {
+  // late AppLifecycleReactor appLifecycleReactor;
+  OpenAdAdHelper appOpenAdManager = OpenAdAdHelper();
+
+  @override
+  void initState() {
+    //   appLifecycleReactor =
+    //       AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
 
     Future init() async {
+      await appOpenAdManager.loadAd();
       bool haveUpdate = await UpdateService().checkNewVersion();
       if (haveUpdate) {
         ref.read(routerProvider).goNamed('update');

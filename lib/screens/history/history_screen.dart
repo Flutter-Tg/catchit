@@ -1,5 +1,4 @@
 import 'package:catchit/core/utils/global_state/route.dart';
-import 'package:catchit/core/utils/global_widgets/ads/merci.dart';
 import 'package:catchit/core/utils/global_widgets/modals/clean_history_modal.dart';
 import 'package:catchit/core/utils/global_widgets/modals/delete_item_modal.dart';
 import 'package:catchit/core/utils/global_widgets/screen_head.dart';
