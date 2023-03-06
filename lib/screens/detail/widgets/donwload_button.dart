@@ -14,7 +14,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:catchit/core/helper/app_storage_path.dart';
 import 'package:catchit/config/app_config.dart';
-import 'package:media_scanner/media_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'donwnload_success.dart';
@@ -65,7 +64,7 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
         if (response.statusCode == 200) {
           file = File(filePath);
           networkError = null;
-          MediaScanner.loadMedia(path: filePath);
+          // MediaScanner.loadMedia(path: filePath);
           return true;
         } else {
           networkError = null;

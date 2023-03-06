@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:catchit/core/params/download_param.dart';
 import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:media_scanner/media_scanner.dart';
 import 'app_storage_path.dart';
 import 'error_msg.dart';
 
@@ -28,7 +27,7 @@ Future<String?> saveFileInStorage(
       );
       // print(result);
       if (result) {
-        MediaScanner.loadMedia(path: savedPath.path);
+        // MediaScanner.loadMedia(path: savedPath.path);
         return savedPath.path;
       }
     }
