@@ -8,7 +8,7 @@ class PrimaryButtonWidget extends StatefulWidget {
     this.width,
     this.height,
     this.radius,
-    this.backgroundColor = AppConfig.lightRed,
+    this.backgroundColor = Colors.blueAccent,
     this.textColor = Colors.white,
     required this.text,
     required this.async,

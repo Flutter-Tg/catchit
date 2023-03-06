@@ -52,5 +52,8 @@
 		<!-- //! gallery saver -->
 		<key>NSAppTransportSecurity</key>
 		<string>to access videos using http and https</string>
+		<!-- //! ad -->
+		<!-- <key>GADApplicationIdentifier</key> -->
+		<!-- <string>a-app-pub-3940256099942544~3347511713</string> -->
 	</dict>
 </plist>

@@ -71,7 +71,19 @@ PODS:
     - GoogleUtilities/Reachability (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - Flurry-iOS-SDK/CrashReporter (12.2.0)
+  - Flurry-iOS-SDK/FlurryConfig (12.2.0):
+    - Flurry-iOS-SDK/FlurrySDK
+  - Flurry-iOS-SDK/FlurryMessaging (12.2.0):
+    - Flurry-iOS-SDK/FlurrySDK
+  - Flurry-iOS-SDK/FlurrySDK (12.2.0):
+    - Flurry-iOS-SDK/CrashReporter
   - Flutter (1.0.0)
+  - flutter_flurry_sdk (0.0.1):
+    - Flurry-iOS-SDK/FlurryConfig (~> 12.2.0)
+    - Flurry-iOS-SDK/FlurryMessaging (~> 12.2.0)
+    - Flurry-iOS-SDK/FlurrySDK (~> 12.2.0)
+    - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
   - flutter_native_splash (0.0.1):
@@ -82,12 +94,6 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - Google-Mobile-Ads-SDK (9.14.0):
-    - GoogleAppMeasurement (< 11.0, >= 7.0)
-    - GoogleUserMessagingPlatform (>= 1.1)
-  - google_mobile_ads (0.0.1):
-    - Flutter
-    - Google-Mobile-Ads-SDK (~> 9.13)
   - GoogleAppMeasurement (10.3.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.3.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
@@ -112,7 +118,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUserMessagingPlatform (2.0.1)
   - GoogleUtilities/AppDelegateSwizzler (7.11.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -169,10 +174,10 @@ DEPENDENCIES:
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
+  - flutter_flurry_sdk (from `.symlinks/plugins/flutter_flurry_sdk/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - open_filex (from `.symlinks/plugins/open_filex/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -192,11 +197,10 @@ SPEC REPOS:
     - FirebaseDatabase
     - FirebaseInstallations
     - FirebaseMessaging
+    - Flurry-iOS-SDK
     - FMDB
-    - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleUserMessagingPlatform
     - GoogleUtilities
     - leveldb-library
     - nanopb
@@ -217,14 +221,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
+  flutter_flurry_sdk:
+    :path: ".symlinks/plugins/flutter_flurry_sdk/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  google_mobile_ads:
-    :path: ".symlinks/plugins/google_mobile_ads/ios"
   in_app_review:
     :path: ".symlinks/plugins/in_app_review/ios"
   open_filex:
@@ -257,16 +261,15 @@ SPEC CHECKSUMS:
   FirebaseDatabase: d0732ba8aece0eccfa0cfb3ef540e7ba6fa1c6a6
   FirebaseInstallations: 13dde135fa0524e15bddb133ccc8465c53a1b3f3
   FirebaseMessaging: e345b219fd15d325f0cf2fef28cb8ce00d851b3f
+  Flurry-iOS-SDK: acac6eb6761fc39f7accbf1f8c4859ef297c7ee9
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_flurry_sdk: 1fe3874c8fd55c820d0563fa0297930ed74e35b9
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   fluttertoast: eb263d302cc92e04176c053d2385237e9f43fad0
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  Google-Mobile-Ads-SDK: 4fe6304b771f8467d29978cb790ec1e56e646946
-  google_mobile_ads: 6bfe04d9c9fd5c2a026e6f09ca2d97ae25b78f7e
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleDataTransport: ea169759df570f4e37bdee1623ec32a7e64e67c4
-  GoogleUserMessagingPlatform: 5f8b30daf181805317b6b985bb51c1ff3beca054
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
   in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729

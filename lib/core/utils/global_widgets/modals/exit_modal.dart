@@ -34,7 +34,7 @@ class ExitModal extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ExitBannerWidget(padding: EdgeInsets.only(bottom: 20.w)),
+          // ExitBannerWidget(padding: EdgeInsets.only(bottom: 20.w)),
           Text(
             'Are you sure to Exit?',
             textAlign: TextAlign.center,
@@ -55,7 +55,7 @@ class ExitModal extends ConsumerWidget {
           ),
           SizedBox(height: 30.w),
           PrimaryButtonWidget(
-            backgroundColor: AppConfig.lightRed,
+            backgroundColor: Colors.blueAccent,
             text: 'Cancel',
             async: false,
             function: () {

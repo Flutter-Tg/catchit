@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import 'package:catchit/config/theme.dart';
@@ -99,12 +98,12 @@ Future setup() async {
   // }
 
   //! ads
-  if (kReleaseMode) {
-    MobileAds.instance.initialize();
-  } else {
-    MobileAds.instance.updateRequestConfiguration(RequestConfiguration(
-        testDeviceIds: ['2A4A033DE1974992A0D05292F33E341C']));
-  }
+  // if (kReleaseMode) {
+  //   MobileAds.instance.initialize();
+  // } else {
+  //   MobileAds.instance.updateRequestConfiguration(RequestConfiguration(
+  //       testDeviceIds: ['2A4A033DE1974992A0D05292F33E341C']));
+  // }
 
   //! notification
   if (Platform.isIOS && kDebugMode) {

@@ -438,7 +438,7 @@ class _VideoPlayerProgressBarWidgetState
       },
       barHeight: 4,
       baseBarColor: const Color(0xff2F2F2F).withOpacity(0.5),
-      progressBarColor: AppConfig.lightRed,
+      progressBarColor: Colors.blueAccent,
       thumbColor: Colors.white,
       timeLabelLocation: TimeLabelLocation.sides,
       timeLabelType: TimeLabelType.totalTime,
@@ -447,7 +447,7 @@ class _VideoPlayerProgressBarWidgetState
         fontWeight: FontWeight.w400,
         color: AppConfig.lightGray,
       ),
-      bufferedBarColor: AppConfig.lightRed.withOpacity(0.3),
+      bufferedBarColor: Colors.blueAccent.withOpacity(0.3),
     );
   }
 }

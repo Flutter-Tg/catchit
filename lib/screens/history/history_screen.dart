@@ -214,7 +214,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen>
                                       border: Border.all(
                                           width: 1,
                                           color: selected.contains(other[index])
-                                              ? AppConfig.lightRed
+                                              ? Colors.blueAccent
                                               : Colors.transparent),
                                     ),
                                     child: HistoryItem(file: other[index]),
