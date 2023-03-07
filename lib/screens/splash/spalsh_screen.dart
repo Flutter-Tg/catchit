@@ -7,6 +7,7 @@ import 'package:catchit/core/services/update.dart';
 import 'package:catchit/core/utils/animations/show_up_fade.dart';
 import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
+import 'package:catchit/future/config/repository.dart';
 import 'package:catchit/future/history/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -22,7 +23,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   // late AppLifecycleReactor appLifecycleReactor;
-  // OpenAdAdHelper appOpenAdManager = OpenAdAdHelper();
+  OpenAdAdHelper appOpenAdManager = OpenAdAdHelper();
 
   @override
   void initState() {
@@ -35,15 +36,29 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
 
+    Future checkBanner() async {
+      await Future.doWhile(() async {
+        await Future.delayed(const Duration(seconds: 1));
+        if (OpenAdAdHelper.isShowingAd == false) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+    }
+
     Future init() async {
-      // if(BannerConfig.openApp) await appOpenAdManager.loadAd();
+      if (BannerConfig.openApp) await appOpenAdManager.loadAd();
+      await ConfigRepository().fetchConfig();
       bool haveUpdate = await UpdateService().checkNewVersion();
+      // bool haveUpdate = false;
       if (haveUpdate) {
+        await checkBanner();
         ref.read(routerProvider).goNamed('update');
       } else {
         bool privacy = await PrivacyService().checkAcepted();
         await ref.read(historyProvider).getHistory();
-        await Future.delayed(const Duration(seconds: 3));
+        await checkBanner();
         if (privacy) {
           ref.read(routerProvider).goNamed('main');
         } else {
@@ -69,7 +84,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w700),
               ),
             ),
-            const Icon(Icons.photo_size_select_actual_rounded),
             ShowUpFadeAnimation(
               delay: 6,
               child: Text(

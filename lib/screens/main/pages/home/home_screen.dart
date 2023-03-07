@@ -21,19 +21,19 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController linkController = TextEditingController();
-    // Future.delayed(const Duration(seconds: 1), () {
-    //   Clipboard.getData(Clipboard.kTextPlain).then((value) {
-    //     if (value != null && value.text != null) {
-    //       if ((value.text!.contains('tiktok') ||
-    //               value.text!.contains('instagram') ||
-    //               value.text!.contains('facebook') ||
-    //               value.text!.contains('fb')) &&
-    //           linkController.text.isEmpty) {
-    //         ref.read(linkBoxProvider).currentState!.add(value.text.toString());
-    //       }
-    //     }
-    //   });
-    // });
+    Future.delayed(const Duration(seconds: 1), () {
+      Clipboard.getData(Clipboard.kTextPlain).then((value) {
+        if (value != null && value.text != null) {
+          if ((value.text!.contains('tiktok') ||
+                  value.text!.contains('instagram') ||
+                  value.text!.contains('facebook') ||
+                  value.text!.contains('fb')) &&
+              linkController.text.isEmpty) {
+            ref.read(linkBoxProvider).currentState!.add(value.text.toString());
+          }
+        }
+      });
+    });
     return Column(
       children: [
         SafeArea(
@@ -186,7 +186,7 @@ class HomeScreen extends HookConsumerWidget {
                   ],
                 ),
                 SizedBox(height: 15.w),
-                // if(BannerConfig.main)const MainBannerWidget(),
+                if (BannerConfig.main) const MainBannerWidget(),
               ],
             ),
           ),

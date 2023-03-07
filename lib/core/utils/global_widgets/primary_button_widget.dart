@@ -11,6 +11,7 @@ class PrimaryButtonWidget extends StatefulWidget {
     this.backgroundColor = Colors.blueAccent,
     this.textColor = Colors.white,
     required this.text,
+    this.textStyle,
     required this.async,
     required this.function,
     this.icon,
@@ -21,6 +22,7 @@ class PrimaryButtonWidget extends StatefulWidget {
   final Color backgroundColor;
   final Color textColor;
   final String text;
+  final TextStyle? textStyle;
   final IconData? icon;
   final bool async;
   final Function() function;
@@ -75,11 +77,12 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
                         ),
                       Text(
                         widget.text,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: AppConfig().fsTitleSmall,
-                          color: widget.textColor,
-                        ),
+                        style: widget.textStyle ??
+                            TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: AppConfig().fsTitleSmall,
+                              color: widget.textColor,
+                            ),
                       ),
                     ],
                   ),
