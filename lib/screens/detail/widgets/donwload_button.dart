@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:catchit/core/helper/calculator.dart';
-import 'package:catchit/core/helper/save_file_in_storage.dart';
 import 'package:catchit/core/params/download_param.dart';
 import 'package:catchit/core/services/ads/download.dart';
 import 'package:catchit/core/services/internet.dart';
@@ -9,6 +8,7 @@ import 'package:catchit/core/utils/global_widgets/modals/network_error.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:catchit/future/history/controller.dart';
 import 'package:catchit/future/history/domain/entity.dart';
+import 'package:catchit/screens/detail/detail_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +17,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:catchit/config/app_config.dart';
 import 'package:gallery_saver/gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'donwnload_success.dart';
 
@@ -42,12 +41,11 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
     Dio dio = Dio();
     if (await InternetService().checkConncetivity()) {
       try {
-        if (BannerConfig.download) {
-          await DownloadInterstitialHelper().loadAd();
-        }
+        if (BannerConfig.download) DownloadInterstitialHelper().loadAd();
         await storagePermission();
         String filePath =
-            '${(await getApplicationDocumentsDirectory()).path}/${widget.param.fileName}';
+            "${await DetailController().getPath(param: widget.param)}/${widget.param.fileName}";
+
         final response = await dio.download(
           widget.param.fileUrl,
           filePath,
@@ -129,11 +127,9 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
                 link: widget.param.fileUrl,
                 file: file.path,
                 title: widget.param.fileName,
-                // thumb: widget.param.thump,
+                thumb: widget.param.thump ?? "",
               ),
             );
-        HapticFeedback.vibrate();
-        // if (context.mounted) successSaveModal(context: context);
       }
       HapticFeedback.vibrate();
     } else {

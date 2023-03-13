@@ -22,6 +22,7 @@ class _ShowUpFadeAnimationState extends State<ShowUpFadeAnimation>
   late AnimationController controller;
   late Animation<double> opacity;
   late Animation<double> translateY;
+
   @override
   void initState() {
     if (widget.controller == null) {
@@ -30,7 +31,6 @@ class _ShowUpFadeAnimationState extends State<ShowUpFadeAnimation>
     } else {
       controller = widget.controller!;
     }
-
     opacity = Tween(begin: 0.0, end: 1.0)
         .animate(CurvedAnimation(parent: controller, curve: Curves.ease));
     translateY = Tween(begin: 40.0, end: 0.0)

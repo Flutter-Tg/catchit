@@ -42,7 +42,7 @@ class MainNativeAdFactory(val context: Context) : GoogleMobileAdsPlugin.NativeAd
 
 //  media
             val mediaView: MediaView = nativeAdView.findViewById(R.id.native_ad_media)
-            mediaView.setMediaContent(nativeAd.mediaContent)
+            mediaView.mediaContent = nativeAd.mediaContent
             nativeAdView.mediaView = mediaView
 
 // button

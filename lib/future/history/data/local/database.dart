@@ -1,10 +1,11 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 
-import 'package:catchit/future/history/domain/entity.dart';
 import 'package:floor/floor.dart';
-// ignore: depend_on_referenced_packages
 import 'package:sqflite/sqflite.dart' as sqflite;
 
+import 'package:catchit/future/history/domain/entity.dart';
 import 'dao.dart';
 
 part 'database.g.dart';

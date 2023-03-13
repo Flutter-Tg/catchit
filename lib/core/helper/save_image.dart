@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 Future<String> getImageByt(String url) async {
   final response = await http.get(Uri.parse(url));
-  return Utility.base64String(response.bodyBytes);
+  return Utility.base64String(response.bodyBytes).toString();
 }
 
 class Utility {

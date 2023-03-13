@@ -6,7 +6,7 @@ import 'package:catchit/core/resources/data_state.dart';
 import 'package:catchit/core/services/reviwe.dart';
 import 'package:catchit/core/utils/global_widgets/modals/cant_find_modal.dart';
 import 'package:catchit/core/utils/global_widgets/modals/network_error.dart';
-import 'package:catchit/future/detail/data_source/repository/repository_impl.dart';
+import 'package:catchit/future/detail/data_source/repository_impl.dart';
 import 'package:catchit/future/detail/domain/entity/detail.dart';
 import 'package:flutter_flurry_sdk/flurry.dart';
 

@@ -17,27 +17,27 @@ class HistoryItem extends StatelessWidget {
       },
       child: Stack(
         children: [
-          // file.thumb != null
-          //     ? NetworkImageFadeWidget(
-          //         width: double.infinity,
-          //         imageUrl: file.thumb,
-          //         radius: 8.r,
-          //         fit: BoxFit.cover,
-          //       )
-          //     : DecoratedBox(
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(8.r),
-          //           color: AppConfig.lightGray,
-          //           image: const DecorationImage(
-          //             image: AssetImage('assets/images/no_image.png'),
-          //             fit: BoxFit.cover,
-          //           ),
-          //         ),
-          //         child: const SizedBox(
-          //           width: double.infinity,
-          //           height: double.infinity,
-          //         ),
-          //       ),
+          file.thumb != null
+              ? NetworkImageFadeWidget(
+                  width: double.infinity,
+                  imageUrl: file.thumb,
+                  radius: 8.r,
+                  fit: BoxFit.cover,
+                )
+              : DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: AppConfig.lightGray,
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/no_image.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: const SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
           Positioned(
             top: 5.w,
             left: 5.w,

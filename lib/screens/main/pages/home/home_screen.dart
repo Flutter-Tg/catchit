@@ -6,7 +6,6 @@ import 'package:catchit/core/utils/global_widgets/appbar_widget.dart';
 import 'package:catchit/future/detail/domain/entity/detail.dart';
 import 'package:catchit/screens/main/main_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,25 +14,18 @@ import 'widgets/link_box.dart';
 import 'widgets/history.dart';
 import 'widgets/platform_item.dart';
 
-class HomeScreen extends HookConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    TextEditingController linkController = TextEditingController();
-    Future.delayed(const Duration(seconds: 1), () {
-      Clipboard.getData(Clipboard.kTextPlain).then((value) {
-        if (value != null && value.text != null) {
-          if ((value.text!.contains('tiktok') ||
-                  value.text!.contains('instagram') ||
-                  value.text!.contains('facebook') ||
-                  value.text!.contains('fb')) &&
-              linkController.text.isEmpty) {
-            ref.read(linkBoxProvider).currentState!.add(value.text.toString());
-          }
-        }
-      });
-    });
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  TextEditingController linkController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         SafeArea(
@@ -55,6 +47,7 @@ class HomeScreen extends HookConsumerWidget {
             ),
           ),
         ),
+        // Text(text),
         Expanded(
           child: SingleChildScrollView(
             child: Column(

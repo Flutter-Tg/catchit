@@ -9,7 +9,8 @@ class FileEntity {
   String format;
   String link;
   String file;
-  // String? thumb;
+  @ColumnInfo(name: 'thumb')
+  String thumb;
   String title;
 
   FileEntity({
@@ -18,7 +19,7 @@ class FileEntity {
     required this.format,
     required this.link,
     required this.file,
-    // this.thumb,
+    required this.thumb,
     required this.title,
   });
 }

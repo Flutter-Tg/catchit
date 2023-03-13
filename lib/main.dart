@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:catchit/core/utils/global_state/route.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,6 @@ import 'package:catchit/core/helper/disable_certificate_https.dart';
 import 'package:catchit/core/locator/locator.dart';
 import 'package:catchit/core/services/notification.dart';
 import 'package:catchit/config/app_config.dart';
-
 import 'firebase_options.dart';
 
 void main() async {
@@ -66,6 +66,7 @@ Future setup() async {
     if (kDebugMode) DeviceOrientation.landscapeRight,
   ]);
   //
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: AppConfig.black,
@@ -85,6 +86,11 @@ Future setup() async {
   try {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
+    await FirebaseRemoteConfig.instance.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: AppConfig.timeout,
+      minimumFetchInterval: const Duration(hours: 1),
+    ));
+    await FirebaseRemoteConfig.instance.activate();
   } catch (e) {
     debugPrint(e.toString());
   }
@@ -92,10 +98,6 @@ Future setup() async {
   try {
     Flurry.builder
         .withLogEnabled(kReleaseMode)
-        .withCrashReporting(true)
-        .withLogEnabled(true)
-        // .withLogLevel(LogLevel.debug)
-        .withReportLocation(true)
         .build(androidAPIKey: "372DGRGG8STWJCSPZFB2", iosAPIKey: "");
   } catch (e) {
     debugPrint(e.toString());

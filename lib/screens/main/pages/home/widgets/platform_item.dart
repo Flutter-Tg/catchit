@@ -52,26 +52,29 @@ class PlatformVerticalItem extends StatelessWidget {
       ),
       child: SizedBox(
         height: 50.w,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: AppConfig().fsSmall,
-                fontWeight: FontWeight.w700,
-                color: titleColor,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: AppConfig().fsSmall,
+                  fontWeight: FontWeight.w700,
+                  color: titleColor,
+                ),
               ),
-            ),
-            Text(
-              sub,
-              style: TextStyle(
-                fontSize: 9.sp,
-                fontWeight: FontWeight.w700,
+              Text(
+                sub,
+                style: TextStyle(
+                  fontSize: 9.sp,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

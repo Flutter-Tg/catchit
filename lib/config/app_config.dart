@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppConfig {
-  static const String rapidApiKey =
-      '01612b7d4cmsh25ca5b4c50ef1e0p12586cjsnb29f99843840';
-  static const String appVersion = '1.6.0';
-  static const int fileDbVersion = 1;
+  static String apiKey = '01612b7d4cmsh25ca5b4c50ef1e0p12586cjsnb29f99843840';
+  static const String appVersion = '1.6.2';
   static const String googlePalyLink =
       'https://play.google.com/store/apps/details?id=com.catchit.app';
-  static const String appStorPalyLink = '';
 
   //? app primary colors
   static const Color black = Color(0xff101010);
@@ -41,16 +38,16 @@ class ApiConfig {
   static bool instagram1 = true;
   static bool facebook1 = true;
   static bool tiktok1 = true;
-  static bool tiktok2 = false;
-  static bool tiktok3 = false;
-  static bool tiktok4 = false;
-  static bool tiktok5 = false;
+  static bool tiktok2 = true;
+  static bool tiktok3 = true;
+  static bool tiktok4 = true;
+  static bool tiktok5 = true;
 }
 
 class BannerConfig {
-  static bool openApp = true;
-  static bool exit = true;
-  static bool main = true;
-  static bool history = true;
-  static bool download = true;
+  static bool openApp = false;
+  static bool exit = false;
+  static bool main = false;
+  static bool history = false;
+  static bool download = false;
 }

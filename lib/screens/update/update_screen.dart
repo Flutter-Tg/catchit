@@ -53,7 +53,7 @@ class UpdateScreen extends StatelessWidget {
                   if (Platform.isAndroid) {
                     link = AppConfig.googlePalyLink;
                   } else if (Platform.isIOS) {
-                    link = AppConfig.appStorPalyLink;
+                    link = "AppConfig.appStorPalyLink";
                   }
                   try {
                     await launchUrlString(link,

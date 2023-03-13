@@ -13,7 +13,7 @@ class DetailApiProvider {
       options: Options(
         headers: {
           'X-RapidAPI-Key':
-              "3eaa23ef94msh247217ad673c836p195bb3jsn6ce4fd1ad4a5", // AppConfig.rapidApiKey,
+              "3eaa23ef94msh247217ad673c836p195bb3jsn6ce4fd1ad4a5", // AppConfig.apiKey,
           'X-RapidAPI-Host':
               'instagram-downloader-download-instagram-videos-stories.p.rapidapi.com'
         },
@@ -30,7 +30,7 @@ class DetailApiProvider {
       queryParameters: {'url': link},
       options: Options(
         headers: {
-          'X-RapidAPI-Key': AppConfig.rapidApiKey,
+          'X-RapidAPI-Key': AppConfig.apiKey,
           'X-RapidAPI-Host': 'facebook-reel-and-video-downloader.p.rapidapi.com'
         },
       ),
@@ -46,7 +46,7 @@ class DetailApiProvider {
       queryParameters: {'url': link},
       options: Options(
         headers: {
-          'X-RapidAPI-Key': AppConfig.rapidApiKey,
+          'X-RapidAPI-Key': AppConfig.apiKey,
           'X-RapidAPI-Host':
               'tiktok-downloader-download-tiktok-videos-without-watermark.p.rapidapi.com'
         },
@@ -63,7 +63,7 @@ class DetailApiProvider {
       queryParameters: {'video_url': link},
       options: Options(
         headers: {
-          'X-RapidAPI-Key': AppConfig.rapidApiKey,
+          'X-RapidAPI-Key': AppConfig.apiKey,
           'X-RapidAPI-Host': 'tokapi-mobile-version.p.rapidapi.com'
         },
       ),
@@ -79,7 +79,7 @@ class DetailApiProvider {
       queryParameters: {'url': link, "hd": "0"},
       options: Options(
         headers: {
-          'X-RapidAPI-Key': AppConfig.rapidApiKey,
+          'X-RapidAPI-Key': AppConfig.apiKey,
           'X-RapidAPI-Host': 'tiktok-download-without-watermark.p.rapidapi.com'
         },
       ),
@@ -95,7 +95,7 @@ class DetailApiProvider {
       queryParameters: {'url': link, "hd": "0"},
       options: Options(
         headers: {
-          'X-RapidAPI-Key': AppConfig.rapidApiKey,
+          'X-RapidAPI-Key': AppConfig.apiKey,
           'X-RapidAPI-Host': 'tiktok-video-no-watermark2.p.rapidapi.com'
         },
       ),
@@ -111,7 +111,7 @@ class DetailApiProvider {
       queryParameters: {'url': link},
       options: Options(
         headers: {
-          'X-RapidAPI-Key': AppConfig.rapidApiKey,
+          'X-RapidAPI-Key': AppConfig.apiKey,
           'X-RapidAPI-Host': 'tiktok-full-info-without-watermark.p.rapidapi.com'
         },
       ),

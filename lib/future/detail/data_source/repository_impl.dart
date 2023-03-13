@@ -5,7 +5,7 @@ import 'package:catchit/core/helper/save_image.dart';
 import 'package:catchit/core/params/file_info.dart';
 import 'package:catchit/core/resources/data_state.dart';
 import 'package:catchit/core/services/internet.dart';
-import 'package:catchit/future/detail/data_source/remote/api_provider.dart';
+import 'package:catchit/future/detail/data_source/api_provider.dart';
 import 'package:catchit/future/detail/data_source/serializer/tiktok1.dart';
 import 'package:catchit/future/detail/data_source/serializer/tiktok2.dart';
 import 'package:catchit/future/detail/data_source/serializer/tiktok3.dart';
@@ -26,19 +26,28 @@ class DetailRepositoryImpl extends DetailRepository {
   Future<DataState<DetailEntity>> tiktokApi(String link) async {
     if (await InternetService().checkConncetivity()) {
       try {
-        if (ApiConfig.tiktok1) {
-          return await serializTiktok1(apiProvider.tiktok(link), link);
-        } else if (ApiConfig.tiktok2) {
-          return await serializTiktok2(apiProvider.tiktok2(link), link);
-        } else if (ApiConfig.tiktok3) {
-          return await serializTiktok3(apiProvider.tiktok3(link), link);
-        } else if (ApiConfig.tiktok4) {
-          return await serializTiktok4(apiProvider.tiktok4(link), link);
-        } else if (ApiConfig.tiktok5) {
-          return await serializTiktok5(apiProvider.tiktok5(link), link);
-        } else {
-          return const DataFailed(somthinWorng);
+        final apis = [
+          if (ApiConfig.tiktok1)
+            serializTiktok1(apiProvider.tiktok(link), link),
+          if (ApiConfig.tiktok2)
+            serializTiktok2(apiProvider.tiktok2(link), link),
+          if (ApiConfig.tiktok3)
+            serializTiktok3(apiProvider.tiktok3(link), link),
+          if (ApiConfig.tiktok4)
+            serializTiktok4(apiProvider.tiktok4(link), link),
+          if (ApiConfig.tiktok5)
+            serializTiktok5(apiProvider.tiktok5(link), link),
+        ];
+        for (var i = 0; i <= apis.length - 1; i++) {
+          final resul = await apis[i];
+          if (resul is DataSuccess) {
+            return resul;
+          } else if (i == apis.length - 1) {
+            return resul;
+          }
         }
+
+        return const DataFailed(somthinWorng);
       } catch (e) {
         debugPrint('tiktokApi : error = $e');
         return const DataFailed(somthinWorng);
