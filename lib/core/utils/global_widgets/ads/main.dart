@@ -54,7 +54,7 @@ class _MainBannerWidgetState extends State<MainBannerWidget> {
           color: const Color(0xff252525),
           child: SizedBox(
             width: 1.sw - 40.w,
-            height: 440.w,
+            height: 440,
             child: AdWidget(ad: nativeAd!),
           ),
         ),

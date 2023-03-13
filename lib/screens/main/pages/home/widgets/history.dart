@@ -121,11 +121,11 @@ class _ViewMoreBtnState extends ConsumerState<ViewMoreBtn> {
         setState(() => inProgress = false);
       },
       child: SizedBox(
-        height: 15.w,
+        height: 20.w,
         child: Center(
           child: inProgress
               ? SizedBox(
-                  width: 15.w,
+                  width: 20.w,
                   child: const CircularProgressIndicator(
                     color: AppConfig.lightRed,
                     strokeWidth: 3,
@@ -134,7 +134,7 @@ class _ViewMoreBtnState extends ConsumerState<ViewMoreBtn> {
               : Text(
                   "View All",
                   style: TextStyle(
-                    fontSize: AppConfig().fsText,
+                    fontSize: AppConfig().fsTitleSmall,
                     fontWeight: FontWeight.w500,
                     color: AppConfig.lightRed,
                   ),

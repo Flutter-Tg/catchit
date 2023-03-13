@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class DetailEntity {
   final int? id;
   final String platform;

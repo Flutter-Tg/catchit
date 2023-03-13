@@ -36,7 +36,7 @@ Future<DataState<DetailEntity>> serializTiktok5(
           DetailFile(
             url: audio,
             name: 'tiktok-audio-${generateRandomString(16)}',
-            type: info == null ? 'mp3' : info.type,
+            type: 'mp3',
             size: info?.size,
           ),
         );

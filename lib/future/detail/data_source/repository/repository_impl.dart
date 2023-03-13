@@ -54,13 +54,13 @@ class DetailRepositoryImpl extends DetailRepository {
       try {
         if (ApiConfig.instagram1) {
           Response response = await apiProvider.instagram(link);
+
           if (response.statusCode == 200) {
             GetFileInfo getFileInfo = GetFileInfo();
             Map<String, dynamic> json =
                 Map.castFrom<String, dynamic, String, dynamic>(response.data);
             List<DetailFile> videos = [];
             List<DetailFile> images = [];
-
             if (json.containsKey('media')) {
               if (json['media'] is List) {
                 for (var media in json['media']) {
@@ -175,7 +175,9 @@ class DetailRepositoryImpl extends DetailRepository {
         return const DataFailed(somthinWorng);
       } catch (e) {
         debugPrint('instagramApi : error = $e');
-
+        if (e.toString().contains("502")) {
+          return const DataFailed(privatePage);
+        }
         return const DataFailed(somthinWorng);
       }
     } else {

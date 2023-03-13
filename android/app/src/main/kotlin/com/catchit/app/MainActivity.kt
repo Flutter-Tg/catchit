@@ -16,4 +16,3 @@ class MainActivity: FlutterActivity() {
         GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "mainNativeAd")
     }
 }
-

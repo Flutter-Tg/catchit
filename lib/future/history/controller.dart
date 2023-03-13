@@ -27,6 +27,7 @@ class HistoryNottifer extends ChangeNotifier {
     final details = await locator<HistoryRepositoryImpl>().getDbFiles();
     if (details is DataSuccess) {
       history = details.data!;
+      history.sort((a, b) => b.id!.compareTo(a.id as int));
       notifyListeners();
     }
   }

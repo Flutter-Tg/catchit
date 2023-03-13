@@ -61,77 +61,10 @@ class HomeScreen extends HookConsumerWidget {
               children: [
                 const HistoryList(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsets.all(20.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 10.w),
-                      Row(
-                        children: [
-                          Text(
-                            'Download ',
-                            style: TextStyle(
-                              fontSize: AppConfig().fsTitleSmall,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            'Media & Content',
-                            style: TextStyle(
-                              fontSize: AppConfig().fsTitleSmall,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15.w),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const PlatformItem(
-                              // asset: 'assets/icons/instagram.png',
-                              title: 'Instagram',
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                              child: DecoratedBox(
-                                decoration: const BoxDecoration(
-                                  color: Color(0xff383838),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: SizedBox(
-                                  width: 9.w,
-                                  height: 9.w,
-                                ),
-                              ),
-                            ),
-                            const PlatformItem(
-                              // asset: 'assets/icons/tiktok.png',
-                              title: 'TikTok',
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                              child: DecoratedBox(
-                                decoration: const BoxDecoration(
-                                  color: Color(0xff383838),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: SizedBox(
-                                  width: 9.w,
-                                  height: 9.w,
-                                ),
-                              ),
-                            ),
-                            const PlatformItem(
-                              // asset: 'assets/icons/facebook.png',
-                              title: 'Facebook',
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20.w),
                       LinkBox(
                         key: ref.read(linkBoxProvider),
                         function: () async {
@@ -152,7 +85,6 @@ class HomeScreen extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 15.w),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -3,6 +3,7 @@ import 'package:catchit/future/history/data/local/dao.dart';
 import 'package:catchit/future/history/domain/entity.dart';
 import 'package:catchit/future/history/domain/repository.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HistoryRepositoryImpl extends HistoryRepository {
   FileDao fileDao;
@@ -23,6 +24,7 @@ class HistoryRepositoryImpl extends HistoryRepository {
   Future<DataState<FileEntity>> getFileByLink(String link) async {
     try {
       FileEntity? file = await fileDao.getFileByLink(link);
+
       return DataSuccess(file);
     } catch (e) {
       debugPrint('getDbDetails : error = $e');
@@ -36,6 +38,7 @@ class HistoryRepositoryImpl extends HistoryRepository {
       await fileDao.insertFile(fileEntity);
       return const DataSuccess(null);
     } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
       debugPrint('addDetailToDb : error = $e');
       return const DataFailed('error');
     }

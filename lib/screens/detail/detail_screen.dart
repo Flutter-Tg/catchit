@@ -37,110 +37,103 @@ class DetailScreen extends ConsumerWidget {
             title: 'Description', sub: data.caption!.description.toString()),
     ];
     return ScreenHead(
-      child: GestureDetector(
-        onHorizontalDragEnd: (details) {
-          if (details.velocity.pixelsPerSecond.dx > 0) {
-            ref.read(routerProvider).pop();
-          }
-        },
-        child: SafeArea(
-          bottom: false,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(
-              children: [
-                AppBarWidget(
-                  leftChild: InkWell(
-                    onTap: () => ref.read(routerProvider).pop(),
-                    child: Icon(
-                      Icons.arrow_back,
-                      size: 26.sp,
-                    ),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            children: [
+              AppBarWidget(
+                leftChild: InkWell(
+                  onTap: () => ref.read(routerProvider).pop(),
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 26.sp,
                   ),
-                  centerChild: Text(
-                    'See Content',
-                    style: TextStyle(
-                      fontSize: AppConfig().fsTitleSmall,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  // rightChild: data.platform != 'spotify' &&
-                  //         data.platform != 'youtube' &&
-                  //         data.platform != 'youtub_music'
-                  //     ? InkWell(
-                  //         onTap: () async {
-                  //           try {
-                  //             await launchUrlString(data.link,
-                  //                 mode: LaunchMode.externalApplication);
-                  //           } catch (e) {
-                  //             await launchUrlString(data.link,
-                  //                 mode: LaunchMode.platformDefault);
-                  //           }
-                  //         },
-                  //         onLongPress: () {
-                  //           HapticFeedback.vibrate();
-                  //           Clipboard.setData(
-                  //             ClipboardData(text: data.link),
-                  //           ).then(
-                  //             (value) => Fluttertoast.showToast(
-                  //                 msg: 'Link was Copied'),
-                  //           );
-                  //         },
-                  //         child: Image.asset(
-                  //           'assets/icons/${data.platform}.png',
-                  //           width: 20.w,
-                  //           height: 20.w,
-                  //         ),
-                  //       )
-                  //     : null,
                 ),
-                Expanded(
-                  child: ShowDelay(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (data.owner != null)
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15.w),
-                              child: Row(
-                                children: [
-                                  if (data.owner!.profileUrl != null)
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 10.w),
-                                      child: NetworkImageFadeWidget(
-                                        width: 30.w,
-                                        height: 30.w,
-                                        imageUrl: data.owner!.profileUrl,
-                                        radius: 30.r,
-                                      ),
-                                    ),
-                                  Text(
-                                    data.owner!.username,
-                                    style: TextStyle(
-                                      fontSize: AppConfig().fsText,
-                                      fontWeight: FontWeight.w400,
+                centerChild: Text(
+                  'See Content',
+                  style: TextStyle(
+                    fontSize: AppConfig().fsTitleSmall,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                // rightChild: data.platform != 'spotify' &&
+                //         data.platform != 'youtube' &&
+                //         data.platform != 'youtub_music'
+                //     ? InkWell(
+                //         onTap: () async {
+                //           try {
+                //             await launchUrlString(data.link,
+                //                 mode: LaunchMode.externalApplication);
+                //           } catch (e) {
+                //             await launchUrlString(data.link,
+                //                 mode: LaunchMode.platformDefault);
+                //           }
+                //         },
+                //         onLongPress: () {
+                //           HapticFeedback.vibrate();
+                //           Clipboard.setData(
+                //             ClipboardData(text: data.link),
+                //           ).then(
+                //             (value) => Fluttertoast.showToast(
+                //                 msg: 'Link was Copied'),
+                //           );
+                //         },
+                //         child: Image.asset(
+                //           'assets/icons/${data.platform}.png',
+                //           width: 20.w,
+                //           height: 20.w,
+                //         ),
+                //       )
+                //     : null,
+              ),
+              Expanded(
+                child: ShowDelay(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (data.owner != null)
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15.w),
+                            child: Row(
+                              children: [
+                                if (data.owner!.profileUrl != null)
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 10.w),
+                                    child: NetworkImageFadeWidget(
+                                      width: 30.w,
+                                      height: 30.w,
+                                      imageUrl: data.owner!.profileUrl,
+                                      radius: 30.r,
                                     ),
                                   ),
-                                ],
-                              ),
+                                Text(
+                                  data.owner!.username,
+                                  style: TextStyle(
+                                    fontSize: AppConfig().fsText,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: items.length,
-                            separatorBuilder: (context, index) =>
-                                SizedBox(height: 30.w),
-                            itemBuilder: (context, index) => items[index],
                           ),
-                          SizedBox(height: 20.w),
-                        ],
-                      ),
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: items.length,
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 30.w),
+                          itemBuilder: (context, index) => items[index],
+                        ),
+                        SizedBox(height: 20.w),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -244,6 +237,8 @@ class VideosDetailItem extends StatelessWidget {
                     width: double.infinity,
                     url: data.videos![0].url,
                     radius: 8,
+                    play: false,
+                    thump: data.thumb,
                   ),
                 ),
               ),

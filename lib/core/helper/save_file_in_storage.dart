@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:catchit/core/params/download_param.dart';
+import 'package:catchit/core/services/permission.dart';
 import 'package:flutter/foundation.dart';
-import 'package:media_scanner/media_scanner.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'app_storage_path.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+
 import 'error_msg.dart';
 
 Future<String?> saveFileInStorage(
@@ -13,10 +14,13 @@ Future<String?> saveFileInStorage(
     //  "storage/emulated/0/Download"
     //  (await getExternalStorageDirectory())!.path
     // ${param.isAudio ? 'Audios' : param.isVideo ? 'Videos' : 'Images'}
-    Directory savedPath =
-        Directory("${await AppStoragePath().getPath()}/${param.fileName}");
-    await Permission.storage.request();
+
+    Directory savedPath = Directory(
+        "${(await getApplicationDocumentsDirectory()).path}/${param.fileName}");
+    await storagePermission();
+
     if (await File(savedPath.path).exists()) {
+      GallerySaver.saveImage(savedPath.path, albumName: 'Catchit');
       return fileExict;
     } else {
       bool result = await File(savedPath.path).create(recursive: true).then(
@@ -26,11 +30,8 @@ Future<String?> saveFileInStorage(
           return val.isAbsolute;
         },
       );
-      // print(result);
       if (result) {
-        if (Platform.isAndroid) {
-          MediaScanner.loadMedia(path: savedPath.path);
-        }
+        GallerySaver.saveImage(file.path, albumName: 'Catchit');
         return savedPath.path;
       }
     }

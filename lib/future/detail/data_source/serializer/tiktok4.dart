@@ -1,6 +1,8 @@
 import 'package:catchit/core/helper/error_msg.dart';
 import 'package:catchit/core/helper/generate_random_string.dart';
+import 'package:catchit/core/helper/get_file_info.dart';
 import 'package:catchit/core/helper/save_image.dart';
+import 'package:catchit/core/params/file_info.dart';
 import 'package:catchit/core/resources/data_state.dart';
 import 'package:catchit/future/detail/domain/entity/detail.dart';
 import 'package:dio/dio.dart';
@@ -9,6 +11,7 @@ Future<DataState<DetailEntity>> serializTiktok4(
     Future<dynamic> request, String link) async {
   Response response = await request;
   if (response.statusCode == 200) {
+    GetFileInfo getFileInfo = GetFileInfo();
     final json = response.data['data'];
     List<DetailFile> videos = [];
     if (json.containsKey('play')) {
@@ -24,11 +27,13 @@ Future<DataState<DetailEntity>> serializTiktok4(
 
     List<DetailFile> audios = [];
     if (json.containsKey('music')) {
+      FileInfoParam? info = await getFileInfo.fileInfo(json['music']);
       audios.add(
         DetailFile(
           url: json['music'],
           name: 'tiktok-audio-${generateRandomString(16)}',
           type: "mp3",
+          size: info?.size,
         ),
       );
     }

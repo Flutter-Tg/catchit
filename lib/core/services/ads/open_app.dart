@@ -6,6 +6,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 class OpenAdAdHelper {
   static AppOpenAd? appOpenAd;
   static bool isShowingAd = false;
+  static bool showed = false;
+  static int failed = 0;
 
   // final Duration maxCacheDuration = const Duration(hours: 4);
   // DateTime? _appOpenLoadTime;
@@ -51,6 +53,7 @@ class OpenAdAdHelper {
     // }
     if (isShowingAd == false) {
       isShowingAd = true;
+
       await AppOpenAd.load(
         adUnitId: unitId,
         orientation: AppOpenAd.orientationPortrait,
@@ -61,18 +64,23 @@ class OpenAdAdHelper {
             // _appOpenLoadTime = DateTime.now();
             appOpenAd = ad;
             appOpenAd!.fullScreenContentCallback = FullScreenContentCallback(
+              onAdShowedFullScreenContent: (ad) => showed = true,
+              onAdImpression: (ad) => showed = true,
               onAdFailedToShowFullScreenContent: (ad, error) {
                 isShowingAd = false;
+                showed = true;
                 ad.dispose();
                 appOpenAd = null;
               },
               onAdDismissedFullScreenContent: (ad) {
                 isShowingAd = false;
+                showed = true;
                 ad.dispose();
                 appOpenAd = null;
               },
               onAdWillDismissFullScreenContent: (ad) {
                 isShowingAd = false;
+                showed = true;
               },
             );
             appOpenAd!.show();
@@ -80,6 +88,7 @@ class OpenAdAdHelper {
           onAdFailedToLoad: (error) {
             debugPrint('AppOpenAd failed to load: $error');
             isShowingAd = false;
+            failed += 1;
           },
         ),
       );

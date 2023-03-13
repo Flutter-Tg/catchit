@@ -51,7 +51,6 @@ class PlatformVerticalItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.r),
       ),
       child: SizedBox(
-        width: 100.w,
         height: 50.w,
         child: Column(
           mainAxisSize: MainAxisSize.min,

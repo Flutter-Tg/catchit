@@ -23,10 +23,10 @@ class AppStoragePath {
     return directory.path;
   }
 
-  Future<String> getCashPath() async {
-    String directory = '';
-    await Permission.storage.request();
-    directory = (await getTemporaryDirectory()).path;
-    return directory;
-  }
+  // Future<String> getCashPath() async {
+  //   String directory = '';
+  //   await Permission.storage.request();
+  //   directory = (await getTemporaryDirectory()).path;
+  //   return directory;
+  // }
 }

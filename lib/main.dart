@@ -65,6 +65,7 @@ Future setup() async {
     if (kDebugMode) DeviceOrientation.landscapeLeft,
     if (kDebugMode) DeviceOrientation.landscapeRight,
   ]);
+  //
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: AppConfig.black,
@@ -90,9 +91,10 @@ Future setup() async {
 
   try {
     Flurry.builder
+        .withLogEnabled(kReleaseMode)
         .withCrashReporting(true)
         .withLogEnabled(true)
-        .withLogLevel(LogLevel.debug)
+        // .withLogLevel(LogLevel.debug)
         .withReportLocation(true)
         .build(androidAPIKey: "372DGRGG8STWJCSPZFB2", iosAPIKey: "");
   } catch (e) {

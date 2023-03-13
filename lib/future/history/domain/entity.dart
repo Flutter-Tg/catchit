@@ -9,7 +9,7 @@ class FileEntity {
   String format;
   String link;
   String file;
-  String? thumb;
+  // String? thumb;
   String title;
 
   FileEntity({
@@ -18,7 +18,7 @@ class FileEntity {
     required this.format,
     required this.link,
     required this.file,
-    this.thumb,
+    // this.thumb,
     required this.title,
   });
 }

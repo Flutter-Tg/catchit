@@ -31,30 +31,31 @@ class DownlodaSuccess extends ConsumerWidget {
         Expanded(
           child: PrimaryButtonWidget(
             function: () async {
-              String? result =
-                  await saveFileInStorage(param: param, file: file);
-              if (result == fileExict) {
-                Fluttertoast.showToast(msg: fileExict);
-              } else if (result == null) {
-                Fluttertoast.showToast(msg: "can't saved, try again");
-              } else {
-                ref.read(historyProvider).add(
-                      FileEntity(
-                        platform: param.platform,
-                        format: param.isAudio
-                            ? 'audio'
-                            : param.isVideo
-                                ? 'video'
-                                : 'image',
-                        link: param.fileUrl,
-                        file: result,
-                        title: param.fileName,
-                        thumb: param.thump,
-                      ),
-                    );
-                HapticFeedback.vibrate();
-                if (context.mounted) successSaveModal(context: context);
-              }
+              // String? result =
+              //     await saveFileInStorage(param: param, file: file);
+              // if (result == fileExict) {
+              //   // Fluttertoast.showToast(msg: fileExict);
+              //   Fluttertoast.showToast(msg: "Save done");
+              // } else if (result == null) {
+              //   Fluttertoast.showToast(msg: "can't saved, try again");
+              // } else {
+              //   ref.read(historyProvider).add(
+              //         FileEntity(
+              //           platform: param.platform,
+              //           format: param.isAudio
+              //               ? 'audio'
+              //               : param.isVideo
+              //                   ? 'video'
+              //                   : 'image',
+              //           link: param.fileUrl,
+              //           file: result,
+              //           title: param.fileName,
+              //           thumb: param.thump,
+              //         ),
+              //       );
+              //   HapticFeedback.vibrate();
+              //   if (context.mounted) successSaveModal(context: context);
+              // }
             },
             backgroundColor: const Color(0x0F25A777),
             textColor: const Color(0xff25A778),

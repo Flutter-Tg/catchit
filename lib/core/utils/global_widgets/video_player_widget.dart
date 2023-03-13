@@ -8,6 +8,7 @@ import 'package:catchit/core/utils/global_state/mute.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'network_imag_fade_widget.dart';
@@ -133,6 +134,9 @@ class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
     controllerAnime = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
     initializ();
+    if (autoPlay == false) {
+      controllerAnime.value = 1;
+    }
     controller.pause();
   }
 
@@ -243,7 +247,7 @@ class VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
                   controller.value.isInitialized == false)
                 NetworkImageFadeWidget(
                   imageUrl: widget.thump,
-                  radius: 15,
+                  radius: 15.r,
                   fit: BoxFit.contain,
                   width: widget.width,
                 ),

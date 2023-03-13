@@ -143,11 +143,11 @@ class LinkBoxState extends State<LinkBox> {
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 100),
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(12),
-                    bottomRight: Radius.circular(12),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(12.r),
+                    bottomRight: Radius.circular(12.r),
                   ),
-                  color: isEmpty ? const Color(0xff2561A7) : AppConfig.lightRed,
+                  color: isEmpty ? const Color(0xff2561A7) : AppConfig.red,
                 ),
                 child: SizedBox(
                   width: 100.w,
@@ -157,7 +157,8 @@ class LinkBoxState extends State<LinkBox> {
                             width: 30.w,
                             height: 30.w,
                             child: const CircularProgressIndicator(
-                                color: Colors.white),
+                              color: Colors.white,
+                            ),
                           )
                         : Text(
                             isEmpty ? "Paste" : 'Catchit',

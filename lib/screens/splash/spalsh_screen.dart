@@ -1,10 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:catchit/core/services/ads/open_app.dart';
-import 'package:catchit/core/services/foregrounding_event.dart';
+import 'package:catchit/core/services/permission.dart';
 import 'package:catchit/core/services/privacy.dart';
 import 'package:catchit/core/services/update.dart';
-import 'package:catchit/core/utils/animations/show_up_fade.dart';
 import 'package:catchit/config/app_config.dart';
 import 'package:catchit/core/utils/global_state/route.dart';
 import 'package:catchit/future/config/repository.dart';
@@ -35,16 +34,26 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
-
     Future checkBanner() async {
-      await Future.doWhile(() async {
-        await Future.delayed(const Duration(seconds: 1));
-        if (OpenAdAdHelper.isShowingAd == false) {
-          return false;
-        } else {
-          return true;
-        }
-      });
+      if (BannerConfig.openApp) {
+        await Future.doWhile(
+          () async {
+            await Future.delayed(const Duration(seconds: 1));
+            if (OpenAdAdHelper.showed) {
+              return OpenAdAdHelper.isShowingAd;
+            } else {
+              if (OpenAdAdHelper.failed >= 2) {
+                return OpenAdAdHelper.isShowingAd;
+              } else if (OpenAdAdHelper.isShowingAd) {
+                return true;
+              } else {
+                appOpenAdManager.loadAd();
+                return true;
+              }
+            }
+          },
+        );
+      }
     }
 
     Future init() async {
@@ -59,6 +68,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         bool privacy = await PrivacyService().checkAcepted();
         await ref.read(historyProvider).getHistory();
         await checkBanner();
+        await storagePermission();
         if (privacy) {
           ref.read(routerProvider).goNamed('main');
         } else {
@@ -70,51 +80,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     init();
     return Material(
       color: Theme.of(context).colorScheme.background,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Spacer(flex: 3),
-            ShowUpFadeAnimation(
-              delay: 4,
-              child: Text(
-                'Catch',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w700),
-              ),
-            ),
-            ShowUpFadeAnimation(
-              delay: 6,
-              child: Text(
-                'Anything You',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w700),
-              ),
-            ),
-            ShowUpFadeAnimation(
-              delay: 8,
-              child: Text(
-                'Want Easily',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w700),
-              ),
-            ),
-            const Spacer(flex: 2),
-            ShowUpFadeAnimation(
-              delay: 10,
-              child: Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: 40.w,
-                  height: 40.w,
-                  child: const CircularProgressIndicator(
-                      color: AppConfig.lightGray),
-                ),
-              ),
-            ),
-            const Spacer(),
-          ],
+      child: Center(
+        child: SizedBox(
+          width: 30.w,
+          height: 30.w,
+          child: const CircularProgressIndicator(color: AppConfig.lightGray),
         ),
       ),
     );

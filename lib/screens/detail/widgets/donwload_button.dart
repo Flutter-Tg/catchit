@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:catchit/core/helper/calculator.dart';
+import 'package:catchit/core/helper/save_file_in_storage.dart';
 import 'package:catchit/core/params/download_param.dart';
+import 'package:catchit/core/services/ads/download.dart';
 import 'package:catchit/core/services/internet.dart';
+import 'package:catchit/core/services/permission.dart';
 import 'package:catchit/core/utils/global_widgets/modals/network_error.dart';
 import 'package:catchit/core/utils/global_widgets/primary_button_widget.dart';
 import 'package:catchit/future/history/controller.dart';
@@ -9,13 +12,12 @@ import 'package:catchit/future/history/domain/entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flurry_sdk/flurry.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:catchit/core/helper/app_storage_path.dart';
 import 'package:catchit/config/app_config.dart';
-import 'package:media_scanner/media_scanner.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'donwnload_success.dart';
 
@@ -36,14 +38,16 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
   int progress = 0;
   File file = File('');
   CancelToken cancelToken = CancelToken();
-
   Future<bool> donwnloadFile() async {
     Dio dio = Dio();
     if (await InternetService().checkConncetivity()) {
       try {
-        await Permission.storage.request();
+        if (BannerConfig.download) {
+          await DownloadInterstitialHelper().loadAd();
+        }
+        await storagePermission();
         String filePath =
-            '${await AppStoragePath().getPath()}/${widget.param.fileName}';
+            '${(await getApplicationDocumentsDirectory()).path}/${widget.param.fileName}';
         final response = await dio.download(
           widget.param.fileUrl,
           filePath,
@@ -62,15 +66,11 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
             }
           },
         );
+
         if (response.statusCode == 200) {
           file = File(filePath);
-          networkError = null;
-          if (Platform.isAndroid) {
-            MediaScanner.loadMedia(path: filePath);
-          }
           return true;
         } else {
-          networkError = null;
           return false;
         }
       } catch (e) {
@@ -88,6 +88,7 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
   startDownload() async {
     if (mounted) {
       setState(() {
+        networkError = null;
         isFailed = false;
         progress = 0;
         downloading = true;
@@ -96,12 +97,27 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
     bool isDonloaded = await donwnloadFile();
     if (isDonloaded) {
       await Future.delayed(const Duration(milliseconds: 200));
+      Flurry.logEventWithParameters('Download', {
+        'platform': widget.param.platform,
+        "format": widget.param.isAudio
+            ? "Audio"
+            : widget.param.isVideo
+                ? "Video"
+                : "Image"
+      });
       if (mounted) {
         setState(() {
           progress = 100;
           downloading = false;
           isSuccess = true;
         });
+        if (widget.param.isAudio == false) {
+          if (widget.param.isVideo) {
+            GallerySaver.saveVideo(file.path, albumName: 'Catchit');
+          } else {
+            GallerySaver.saveImage(file.path, albumName: 'Catchit');
+          }
+        }
         ref.read(historyProvider).add(
               FileEntity(
                 platform: widget.param.platform,
@@ -113,7 +129,7 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
                 link: widget.param.fileUrl,
                 file: file.path,
                 title: widget.param.fileName,
-                thumb: widget.param.thump,
+                // thumb: widget.param.thump,
               ),
             );
         HapticFeedback.vibrate();
@@ -182,6 +198,24 @@ class _DownloadButtonState extends ConsumerState<DownloadButton> {
               networkError!,
               style: TextStyle(
                   color: Colors.red, fontSize: AppConfig().fsTextSmall),
+            ),
+          ),
+        if (isSuccess == false)
+          Padding(
+            padding: EdgeInsets.only(top: 10.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/reward.png', width: 24.w),
+                SizedBox(width: 10.w),
+                Text(
+                  "Watch Ads To Download",
+                  style: TextStyle(
+                    color: const Color(0xffFFC305),
+                    fontSize: AppConfig().fsText,
+                  ),
+                ),
+              ],
             ),
           ),
       ],

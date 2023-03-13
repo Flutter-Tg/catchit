@@ -11,17 +11,21 @@ class ConfigRepository {
       final snapshot = await configDB.get().timeout(AppConfig.timeout);
       if (snapshot.exists) {
         Map value = snapshot.value as Map;
-        ApiConfig.instagram1 = value['apis']['instagram1'];
-        ApiConfig.facebook1 = value['apis']['facebook1'];
-        ApiConfig.tiktok1 = value['apis']['tiktok1'];
-        ApiConfig.tiktok2 = value['apis']['tiktok2'];
-        ApiConfig.tiktok3 = value['apis']['tiktok3'];
-        ApiConfig.tiktok4 = value['apis']['tiktok4'];
-        ApiConfig.tiktok5 = value['apis']['tiktok5'];
+        ApiConfig.instagram1 = value['apis']
+            ['instagram_downloader_download_instagram_videos_stories'];
+        ApiConfig.facebook1 =
+            value['apis']['facebook_reel_and_video_downloader'];
+        ApiConfig.tiktok1 = value['apis']
+            ['tikTok_downloader_download_tikTok_videos_without_watermark'];
+        ApiConfig.tiktok2 = value['apis']['tokApi'];
+        ApiConfig.tiktok3 = value['apis']['tiktok_download_without_watermark'];
+        ApiConfig.tiktok4 = value['apis']['tiktok_video_no_watermark'];
+        ApiConfig.tiktok5 = value['apis']['tiktok_full_info_without_watermark'];
         BannerConfig.openApp = value['banners']['openApp'];
         BannerConfig.exit = value['banners']['exit'];
-        BannerConfig.main = value['banners']['openApp'];
-        BannerConfig.history = value['banners']['openApp'];
+        BannerConfig.main = value['banners']['main'];
+        BannerConfig.history = value['banners']['history'];
+        BannerConfig.download = value['banners']['download'];
         return const DataSuccess('');
       } else {
         return const DataFailed('server');

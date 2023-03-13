@@ -8,6 +8,7 @@ import 'package:catchit/core/utils/global_widgets/modals/cant_find_modal.dart';
 import 'package:catchit/core/utils/global_widgets/modals/network_error.dart';
 import 'package:catchit/future/detail/data_source/repository/repository_impl.dart';
 import 'package:catchit/future/detail/domain/entity/detail.dart';
+import 'package:flutter_flurry_sdk/flurry.dart';
 
 class HomeController {
   Future<DetailEntity?> searchLink(String link, BuildContext context) async {
@@ -17,6 +18,7 @@ class HomeController {
     // if (sqlDetail.isNotEmpty) {
     //   return sqlDetail[0];
     // }
+
     DataState<DetailEntity> detail = const DataFailed(linkWorng);
     if (link.contains('tiktok')) {
       detail = await locator<DetailRepositoryImpl>().tiktokApi(link);
@@ -25,9 +27,12 @@ class HomeController {
     } else if (link.contains('facebook') || link.contains('fb.')) {
       detail = await locator<DetailRepositoryImpl>().facebookApi(link);
     }
+
     if (detail is DataSuccess) {
-      FirebaseAnalytics.instance.logEvent(
-          name: 'catch', parameters: {'platform': detail.data!.platform});
+      Flurry.logEventWithParameters(
+          'Catch', {'platform': detail.data!.platform});
+      // FirebaseAnalytics.instance.logEvent(
+      //     name: 'catch', parameters: {'platform': detail.data!.platform});
       ReviewService().rating();
       return detail.data;
     } else {
@@ -44,6 +49,13 @@ class HomeController {
               context: context,
               text:
                   'Unfortunately, We have problem with your current network, Please use another WIFI Network or another VPN');
+        }
+      } else if (detail.error!.contains(privatePage)) {
+        if (context.mounted) {
+          cantFindModal(
+            context: context,
+            text: "The link is Private, We can't get data from it",
+          );
         }
       }
       return null;

@@ -33,15 +33,13 @@ Future<DataState<DetailEntity>> serializTiktok1(
     List<DetailFile> audios = [];
     if (json.containsKey('music')) {
       for (var audio in json['music']) {
-        FileInfoParam? info;
-        info = await getFileInfo.fileInfo(audio);
-        info ??= FileInfoParam(format: 'audio', type: 'mp3');
+        FileInfoParam? info = await getFileInfo.fileInfo(audio);
         audios.add(
           DetailFile(
             url: audio,
             name: 'tiktok-audio-${generateRandomString(16)}',
-            type: info.type,
-            size: info.size,
+            type: 'mp3',
+            size: info?.size,
           ),
         );
       }

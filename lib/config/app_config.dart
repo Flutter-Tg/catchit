@@ -52,4 +52,5 @@ class BannerConfig {
   static bool exit = true;
   static bool main = true;
   static bool history = true;
+  static bool download = true;
 }
